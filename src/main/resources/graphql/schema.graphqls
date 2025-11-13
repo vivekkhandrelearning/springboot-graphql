@@ -1,0 +1,23 @@
+type Device {
+  id: ID!
+  name: String
+  type: String
+  shelf: Shelf
+}
+
+type Shelf {
+  id: ID
+  name: String
+  devices: [Device]
+}
+
+scalar JSON
+
+type Query {
+  runQuery(queryName: String!, parameters: JSON!): JSON
+  hello: String
+  devices: [Device]
+  device(id: ID!): Device
+  shelves: [Shelf]
+  shelf(id: ID!): Shelf
+}

@@ -1,0 +1,40 @@
+server:
+  port: ${PORT:8080}
+spring:
+  graphql:
+    graphiql:
+      enabled: true
+  application:
+    name: '@project.artifactId@'
+  neo4j:
+    uri: ${NEO4J_URI:bolt://localhost:7687}
+    authentication:
+      username: ${NEO4J_USER:neo4j}
+      password: ${NEO4J_PASSWORD:Inventory}
+  data:
+    neo4j:
+      database: ${NEO4J_DATABASE:neo4jmitsonly1}
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+    default-property-inclusion: non_null
+inventory-service:
+  base-path: http://localhost:8084/
+inventory:
+  api:
+    pagination:
+      offset: 0
+      limit: 10
+logging:
+  file:
+    name: logs/dynamic-graph-report-ui.log
+  level:
+    com.telstra.tni: debug
+    org:
+      springframework:
+        data:
+          neo4j:
+            cypher: trace
+build:
+  version: '@project.version@'
+  timestamp: '@maven.build.timestamp@'

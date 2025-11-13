@@ -1,0 +1,4 @@
+getNodes:
+  cypher: "MATCH (n) RETURN n LIMIT 10"
+getPorts:
+  cypher: "MATCH (n:Port) RETURN n LIMIT 10"
