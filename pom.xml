@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>dynamic-graph-report-ui</artifactId>
+	<artifactId>graphql-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>dynamic-graph-report-ui</name>
 	<description>Demo project for Spring Boot</description>
