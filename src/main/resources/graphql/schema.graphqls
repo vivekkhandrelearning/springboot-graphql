@@ -1,23 +1,1764 @@
-type Device {
-  id: ID!
+type Vertical {
+  npiId: Int
+  resourceStatus: Int
+  usageState: Int
+  comments: String
+  administrativeState: Int
   name: String
-  type: String
-  shelf: Shelf
+  _type: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_vertical_type_Vertical_Type: [Vertical_Type]
+  vertical_has_terminalblock_TerminalBlock: [TerminalBlock]
+}
+
+type RbsFunctionProperty {
+  id: ID
+}
+
+type BroadbandCableService {
+  id: ID
+}
+
+type MgxFunctionProperty {
+  id: ID
+}
+
+type Drawer_Type {
+  item: String
+  serial: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeClass: String
+  typeDescription: String
+  id: String
+  npeId: Int
+  _version: String
+  manufacturerTypeNameAlias: String
+  usageCategory: Int
+}
+
+type Slot_Definition {
+  relativeName: String
+  resourceStatus: Int
+  name: String
+  slotNumber: Int
+  id: String
+  _version: String
+  _has_type_Slot_Type: [Slot_Type]
+}
+
+type CircuitProtection {
+  npiId: Int
+  resourceStatus: Int
+  usageState: Int
+  comments: String
+  administrativeState: Int
+  name: String
+  _type: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_circuitprotection_type_CircuitProtection_Type: [CircuitProtection_Type]
+}
+
+type Suite {
+  npiId: Int
+  name: String
+  id: String
+  _version: String
+  legacyAddressValue: String
+  suite_has_rack_Rack: [Rack]
+  suite_has_distributionframe_DistributionFrame: [DistributionFrame]
+  resource_at_place_Place: [Place]
+}
+
+type WipService {
+  id: ID
+}
+
+type Side_Type {
+  typeName: String
+  id: String
+  npeId: Int
+  _version: String
+  _compatible_side_has_vertical_Vertical_Type: [Vertical_Type]
+  _compatible_side_has_zone_Zone_Type: [Zone_Type]
+}
+
+type CableSet_Type {
+  item: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeDescription: String
+  manufacturerTypeNameAlias: String
+  serial: String
+  typeClass: String
+  repairer: String
+  id: String
+  npeId: Int
+  _version: String
+  usageCategory: Int
+}
+
+type Port_Definition {
+  resourceStatus: Int
+  name: String
+  id: String
+  _version: String
+  portNumber: Int
+  _has_type_Port_Type: [Port_Type]
+}
+
+type ExternalIdentifier {
+  id: ID
+}
+
+type L2VpnAccessService {
+  id: ID
+}
+
+type Circuit {
+  id: ID
+}
+
+type _Context {
+  canBeModified: Boolean
+  excludeRelationshipCloning: Boolean
+  name: String
+  id: String
+  maxVersions: Int
+  order: Int
+}
+
+type Project {
+  externalId: String
+  id: String
+  _version: String
+}
+
+type TerminalBlock {
+  npiId: Int
+  address: String
+  comments: String
+  _type: String
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  terminalblock_contains_port_Port: [Port]
+  _associated_terminalblock_type_TerminalBlock_Type: [TerminalBlock_Type]
+}
+
+type Circuit_Type {
+  id: ID
+}
+
+type Note {
+  id: ID
+}
+
+type SolarPanel {
+  npiId: Int
+  comments: String
+  serialNumber: String
+  _type: String
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  arrayNumber: Int
+  name: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_solarpanel_type_SolarPanel_Type: [SolarPanel_Type]
+}
+
+type Slot {
+  relativeName: String
+  resourceStatus: Int
+  name: String
+  slotNumber: Int
+  _type: String
+  id: String
+  _typeId: String
+  _version: String
+  slot_has_card_Card: [Card]
+  _associated_slot_type_Slot_Type: [Slot_Type]
+}
+
+type Link {
+  name: String
+  _type: String
+  id: String
+  _version: String
+  _associated_link_type_Link_Type: [Link_Type]
+}
+
+type ConvergedCoreNetworkEntity {
+  id: ID
+}
+
+type TlsAccessService {
+  id: ID
+}
+
+type AxeEtm1Device {
+  id: ID
+}
+
+type CircuitProtection_Type {
+  item: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeDescription: String
+  manufacturerTypeNameAlias: String
+  serial: String
+  typeClass: String
+  repairer: String
+  id: String
+  npeId: Int
+  _version: String
+  usageCategory: Int
+}
+
+type Level_Type {
+  typeName: String
+  id: String
+  npeId: Int
+  _version: String
+  _compatible_level_has_terminalblock_TerminalBlock_Type: [TerminalBlock_Type]
+}
+
+type AccessService {
+  id: ID
+}
+
+type Party {
+  id: ID
+}
+
+type Mrv9xFunctionProperty {
+  id: ID
+}
+
+type UnitiVcFunctionProperty {
+  id: ID
+}
+
+type ConvergedNetworkSlicingEntity {
+  id: ID
+}
+
+type UnitiEfsFunctionProperty {
+  id: ID
+}
+
+type _Schema {
+  tenants: [String]
+  name: String
+  id: String
+  categories: [String]
+}
+
+type EisBdslUniService {
+  id: ID
+}
+
+type FixedConnectivityEntity {
+  id: ID
+}
+
+type DistributionFrame {
+  npiId: Int
+  resourceStatus: Int
+  usageState: Int
+  comments: String
+  administrativeState: Int
+  name: String
+  _type: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_distributionframe_type_DistributionFrame_Type: [DistributionFrame_Type]
+  distributionframe_has_vertical_Vertical: [Vertical]
+}
+
+type Shelf_Type {
+  typeName: String
+  behaviour: Int
+  id: String
+  _version: String
+  _definition_shelf_contains_slot_Slot_Definition: [Slot_Definition]
+}
+
+type NetworkFunctionProperty {
+  id: ID
+}
+
+type TelstraWholesaleEthernetCarrierGradeService {
+  id: ID
+}
+
+type Advaz4806FunctionProperty {
+  id: ID
+}
+
+type SubStructure {
+  subStructureType: Int
+  name: String
+  id: String
+  _version: String
+  substructure_hosts_resource_Suite: [Suite]
+  substructure_hosts_resource_DistributionFrame: [DistributionFrame]
+  substructure_hosts_resource_Device: [Device]
+  substructure_hosts_resource_Antenna: [Antenna]
+  substructure_at_place_Place: [Place]
+  substructure_at_substructure_SubStructure: [SubStructure]
+}
+
+type NbnCvcService {
+  id: ID
+}
+
+type Place {
+  referredType: String
+  role: Int
+  name: String
+  externalId: String
+  id: String
+  _version: String
+}
+
+type TidRetailHspServiceDeliveryPointService {
+  id: ID
+}
+
+type TelstraConsumerNbnService {
+  id: ID
+}
+
+type DdsService {
+  id: ID
+}
+
+type Port {
+  resourceStatus: Int
+  name: String
+  _type: String
+  id: String
+  _typeId: String
+  _version: String
+  portNumber: Int
+  _associated_port_type_Port_Type: [Port_Type]
+}
+
+type Antenna_Type {
+  item: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeDescription: String
+  manufacturerTypeNameAlias: String
+  serial: String
+  typeClass: String
+  repairer: String
+  id: String
+  npeId: Int
+  _version: String
+  usageCategory: Int
+  _compatible_antenna_has_item_Item_Type: [Item_Type]
+  _compatible_antenna_has_filter_Filter_Type: [Filter_Type]
+}
+
+type Slot_Type {
+  typeName: String
+  id: String
+  _version: String
+  _compatible_slot_has_card_Card_Type: [Card_Type]
+}
+
+type SwitchFunctionProperty {
+  id: ID
+}
+
+type UnitiOacService {
+  id: ID
+}
+
+type BroadbandSatelliteService {
+  id: ID
+}
+
+type L2AccessLegService {
+  id: ID
+}
+
+type Battery_Type {
+  item: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeDescription: String
+  manufacturerTypeNameAlias: String
+  serial: String
+  typeClass: String
+  repairer: String
+  id: String
+  npeId: Int
+  _version: String
+  usageCategory: Int
+}
+
+type Battery {
+  npiId: Int
+  resourceStatus: Int
+  usageState: Int
+  comments: String
+  administrativeState: Int
+  name: String
+  _type: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_battery_type_Battery_Type: [Battery_Type]
+}
+
+type NbnVcFunctionProperty {
+  id: ID
+}
+
+type Rack_Type {
+  heightUnits: Int
+  variableHeight: Boolean
+  item: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeDescription: String
+  bottomUpNumbering: Boolean
+  manufacturerTypeNameAlias: String
+  depthUnits: Int
+  depth: Int
+  serial: String
+  typeClass: String
+  repairer: String
+  width: Int
+  id: String
+  npeId: Int
+  _version: String
+  usageCategory: Int
+  height: Int
+  widthUnits: Int
+  _compatible_rack_has_cableset_CableSet_Type: [CableSet_Type]
+  _compatible_rack_has_tray_Tray_Type: [Tray_Type]
+  _compatible_rack_has_card_Card_Type: [Card_Type]
+  _compatible_rack_has_drawer_Drawer_Type: [Drawer_Type]
+  _compatible_rack_has_device_Device_Type: [Device_Type]
+}
+
+type NetworkCloud_Type {
+  id: ID
+}
+
+type NodeBMobilesBackhaulService {
+  id: ID
+}
+
+type ThreeGppIubInterfaceService {
+  id: ID
+}
+
+type BroadbandService {
+  id: ID
+}
+
+type JprExFunctionProperty {
+  id: ID
+}
+
+type DistributionFrame_Type {
+  heightUnits: Int
+  item: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeDescription: String
+  manufacturerTypeNameAlias: String
+  depthUnits: Int
+  depth: Int
+  serial: String
+  typeClass: String
+  width: Int
+  id: String
+  npeId: Int
+  _version: String
+  usageCategory: Int
+  height: Int
+  widthUnits: Int
+  _compatible_distributionframe_has_side_Side_Type: [Side_Type]
+  _compatible_distributionframe_has_vertical_Vertical_Type: [Vertical_Type]
+  _compatible_distributionframe_has_terminalblock_TerminalBlock_Type: [TerminalBlock_Type]
+}
+
+type _ComplexType {
+  name: String
+  id: String
+  contains_property__Property: [_Property]
+}
+
+type BundleService {
+  id: ID
+}
+
+type NbnNniPortService {
+  id: ID
+}
+
+type IsamBackhaulService {
+  id: ID
+}
+
+type Zone_Type {
+  typeName: String
+  id: String
+  npeId: Int
+  _version: String
+  _compatible_zone_has_level_Level_Type: [Level_Type]
+}
+
+type TidWholesaleHspServiceDeliveryPointService {
+  id: ID
+}
+
+type EisEvcService {
+  id: ID
+}
+
+type AdslService {
+  id: ID
 }
 
 type Shelf {
-  id: ID
+  relativeName: String
+  resourceStatus: Int
   name: String
-  devices: [Device]
+  _type: String
+  shelfNumber: Int
+  id: String
+  _typeId: String
+  _version: String
+  _associated_shelf_type_Shelf_Type: [Shelf_Type]
+  shelf_contains_slot_Slot: [Slot]
 }
 
-scalar JSON
+type BroadbandFttpService {
+  id: ID
+}
+
+type Link_Type {
+  typeName: String
+  id: String
+  _version: String
+}
+
+type UnitiNniGroupService {
+  id: ID
+}
+
+type OntFunctionProperty {
+  id: ID
+}
+
+type ItFunctionProperty {
+  id: ID
+}
+
+type Rack {
+  npiId: Int
+  comments: String
+  serialNumber: String
+  _type: String
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  barcode: String
+  rack_has_item_Item: [Item]
+  rack_has_tray_Tray: [Tray]
+  rack_has_device_Device: [Device]
+  _associated_rack_type_Rack_Type: [Rack_Type]
+  resource_at_place_Place: [Place]
+  resource_has_project_Project: [Project]
+}
+
+type Number {
+  id: ID
+}
+
+type TestAggregate {
+  id: ID
+}
+
+type Bandwidth {
+  id: ID
+}
+
+type AxeRimDevice {
+  id: ID
+}
+
+type Nok7750FunctionProperty {
+  id: ID
+}
+
+type PowerSocket_Type {
+  id: ID
+}
+
+type TelstraConsumerUnitiService {
+  id: ID
+}
+
+type Antenna {
+  npiId: Int
+  comments: String
+  serialNumber: String
+  _type: String
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  antenna_has_filter_Filter: [Filter]
+  antenna_has_item_Item: [Item]
+  resource_at_place_Place: [Place]
+  _associated_antenna_type_Antenna_Type: [Antenna_Type]
+}
+
+type ContentDeliveryService {
+  id: ID
+}
+
+type WspVpnAccessService {
+  id: ID
+}
+
+type VplsService {
+  id: ID
+}
+
+type EisEvplService {
+  id: ID
+}
+
+type NBNVDM {
+  id: ID
+}
+
+type Device_Type {
+  item: String
+  serial: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeClass: String
+  typeDescription: String
+  id: String
+  npeId: Int
+  _version: String
+  manufacturerTypeNameAlias: String
+  usageCategory: Int
+  _definition_device_contains_shelf_Shelf_Definition: [Shelf_Definition]
+}
+
+type NbnUniEService {
+  id: ID
+}
+
+type WholesaleServiceProviderService {
+  id: ID
+}
+
+type NbnProductService {
+  id: ID
+}
+
+type Filter {
+  npiId: Int
+  comments: String
+  serialNumber: String
+  _type: String
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_filter_type_Filter_Type: [Filter_Type]
+}
+
+type ImsBltService {
+  id: ID
+}
+
+type VpwsService {
+  id: ID
+}
+
+type _Relationship {
+  backLinkName: String
+  name: String
+  id: String
+  tmfType: String
+  to__Object: [_Object]
+  from__Object: [_Object]
+}
+
+type UnitiProductService {
+  id: ID
+}
+
+type VideoOnDemandService {
+  id: ID
+}
+
+type CompositeService {
+  id: ID
+}
+
+type WspVpnService {
+  id: ID
+}
+
+type FuseHolder {
+  npiId: Int
+  resourceStatus: Int
+  usageState: Int
+  comments: String
+  administrativeState: Int
+  name: String
+  _type: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_fuseholder_type_FuseHolder_Type: [FuseHolder_Type]
+  fuseholder_has_circuitprotection_CircuitProtection: [CircuitProtection]
+}
+
+type TNI {
+  id: ID
+}
+
+type Item {
+  npiId: Int
+  comments: String
+  serialNumber: String
+  _type: String
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_item_type_Item_Type: [Item_Type]
+  item_has_circuitprotection_CircuitProtection: [CircuitProtection]
+  resource_at_place_Place: [Place]
+}
+
+type NbnFunctionProperty {
+  id: ID
+}
+
+type ORCHASS {
+  id: ID
+}
+
+type WipUniService {
+  id: ID
+}
+
+type BBNSE {
+  id: ID
+}
+
+type Item_Type {
+  item: String
+  serial: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeClass: String
+  typeDescription: String
+  id: String
+  npeId: Int
+  _version: String
+  manufacturerTypeNameAlias: String
+  usageCategory: Int
+  _compatible_item_has_fuseholder_FuseHolder_Type: [FuseHolder_Type]
+  _definition_item_contains_port_Port_Definition: [Port_Definition]
+  _compatible_item_has_battery_Battery_Type: [Battery_Type]
+  _compatible_item_has_circuitprotection_CircuitProtection_Type: [CircuitProtection_Type]
+}
+
+type Number_Type {
+  id: ID
+}
+
+type _EnumerationLiteral {
+  name: String
+  id: String
+  value: Int
+}
+
+type TdmService {
+  id: ID
+}
+
+type InternetService {
+  id: ID
+}
+
+type PowerCable_Type {
+  id: ID
+}
+
+type Vertical_Type {
+  typeName: String
+  id: String
+  npeId: Int
+  _version: String
+  _compatible_vertical_has_terminalblock_TerminalBlock_Type: [TerminalBlock_Type]
+}
+
+type EthernetLineService {
+  id: ID
+}
+
+type PSTNEntity {
+  id: ID
+}
+
+type Card {
+  npiId: Int
+  comments: String
+  serialNumber: String
+  _type: String
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  barcode: String
+  _associated_card_type_Card_Type: [Card_Type]
+  card_contains_port_Port: [Port]
+}
+
+type WirelessIpService {
+  id: ID
+}
+
+type NbnAvcService {
+  id: ID
+}
+
+type VpnAccessService {
+  id: ID
+}
+
+type Level {
+  npiId: Int
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  _type: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  level_has_terminalblock_TerminalBlock: [TerminalBlock]
+  _associated_level_type_Level_Type: [Level_Type]
+}
+
+type Nok7250FunctionProperty {
+  id: ID
+}
+
+type UnitiNniPortService {
+  id: ID
+}
+
+type JprMxFunctionProperty {
+  id: ID
+}
+
+type NbnNniGroupService {
+  id: ID
+}
+
+type MobilityVoiceService {
+  id: ID
+}
+
+type TerminalBlock_Type {
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeClass: String
+  typeDescription: String
+  id: String
+  npeId: Int
+  _version: String
+  manufacturerTypeNameAlias: String
+  usageCategory: Int
+  _definition_terminalblock_contains_port_Port_Definition: [Port_Definition]
+}
+
+type Side {
+  npiId: Int
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  _type: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_side_type_Side_Type: [Side_Type]
+  side_has_vertical_Vertical: [Vertical]
+  side_has_zone_Zone: [Zone]
+}
+
+type RadioAccessNetworkEntity {
+  id: ID
+}
+
+type DataCentreNetworkingEntity {
+  id: ID
+}
+
+type _Enumeration {
+  name: String
+  id: String
+  has_value__EnumerationLiteral: [_EnumerationLiteral]
+}
+
+type _Property {
+  name: String
+  id: String
+  type: String
+  required: Boolean
+  enumerated_by__Enumeration: [_Enumeration]
+  is_of_type__ComplexType: [_ComplexType]
+}
+
+type UnitiFunctionProperty {
+  id: ID
+}
+
+type ServiceManagementService {
+  id: ID
+}
+
+type JprVcFunctionProperty {
+  id: ID
+}
+
+type Drawer {
+  npiId: Int
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  _type: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_drawer_type_Drawer_Type: [Drawer_Type]
+  resource_at_place_Place: [Place]
+}
+
+type AdaptiveNetworkEntity {
+  id: ID
+}
+
+type Tray_Type {
+  heightUnits: Int
+  variableHeight: Boolean
+  item: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeDescription: String
+  bottomUpNumbering: Boolean
+  manufacturerTypeNameAlias: String
+  depthUnits: Int
+  depth: Int
+  serial: String
+  typeClass: String
+  width: Int
+  repairer: String
+  id: String
+  npeId: Int
+  _version: String
+  usageCategory: Int
+  height: Int
+  widthUnits: Int
+  _compatible_tray_has_battery_Battery_Type: [Battery_Type]
+}
+
+type Tray {
+  npiId: Int
+  resourceStatus: Int
+  comments: String
+  name: String
+  _type: String
+  manufactureDate: String
+  id: String
+  _version: String
+  legacyAddressValue: String
+  _associated_tray_type_Tray_Type: [Tray_Type]
+  resource_at_place_Place: [Place]
+}
+
+type AxeDevice {
+  id: ID
+}
+
+type OrderItem {
+  id: ID
+}
+
+type ConvergedCoreSubscriptionManagement {
+  id: ID
+}
+
+type CmnManagementService {
+  id: ID
+}
+
+type EpiCentreHspServiceDeliveryPointService {
+  id: ID
+}
+
+type AxeCcsDevice {
+  id: ID
+}
+
+type EndToEndConnectionService {
+  id: ID
+}
+
+type CableSet {
+  npiId: Int
+  serialNumber: String
+  comments: String
+  _type: String
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_cableset_type_CableSet_Type: [CableSet_Type]
+}
+
+type CrsFunctionProperty {
+  id: ID
+}
+
+type VoiceService {
+  id: ID
+}
+
+type NbnOvcService {
+  id: ID
+}
+
+type PublicLabelDeliveryService {
+  id: ID
+}
+
+type SdhFunctionProperty {
+  id: ID
+}
+
+type VpnService {
+  id: ID
+}
+
+type Bandwidth_Type {
+  id: ID
+}
+
+type SiuFunctionProperty {
+  id: ID
+}
+
+type Device {
+  npiId: Int
+  comments: String
+  serialNumber: String
+  _type: String
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  manufactureDate: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  barcode: String
+  _associated_device_type_Device_Type: [Device_Type]
+  device_contains_shelf_Shelf: [Shelf]
+  resource_at_place_Place: [Place]
+  customComputedField: String
+}
+
+type FixedNetworkEntity {
+  id: ID
+}
+
+type _Object {
+  typesSupported: Boolean
+  name: String
+  id: String
+  abstract: Boolean
+  category: String
+  derived_from__Object: [_Object]
+  has_property__Property: [_Property]
+}
+
+type Topology {
+  id: ID
+}
+
+type OfaService {
+  id: ID
+}
+
+type EisUniService {
+  id: ID
+}
+
+type UnitiOcvService {
+  id: ID
+}
+
+type Card_Type {
+  item: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeDescription: String
+  manufacturerTypeNameAlias: String
+  serial: String
+  typeClass: String
+  repairer: String
+  id: String
+  npeId: Int
+  _version: String
+  usageCategory: Int
+  _definition_card_contains_port_Port_Definition: [Port_Definition]
+}
+
+type TlsService {
+  id: ID
+}
+
+type FuseHolder_Type {
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeClass: String
+  typeDescription: String
+  id: String
+  npeId: Int
+  _version: String
+  manufacturerTypeNameAlias: String
+  usageCategory: Int
+  _compatible_fuseholder_has_circuitprotection_CircuitProtection_Type: [CircuitProtection_Type]
+}
+
+type ServiceSpecification {
+  id: ID
+}
+
+type EisEplService {
+  id: ID
+}
+
+type ThreeGppX2InterfaceService {
+  id: ID
+}
+
+type ThreeGppS1InterfaceService {
+  id: ID
+}
+
+type PowerSocket {
+  id: ID
+}
+
+type NetworkCloud {
+  id: ID
+}
+
+type SolarPanel_Type {
+  item: String
+  serial: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeClass: String
+  typeDescription: String
+  id: String
+  npeId: Int
+  _version: String
+  manufacturerTypeNameAlias: String
+  usageCategory: Int
+}
+
+type ThreeGppAbisInterfaceService {
+  id: ID
+}
+
+type Port_Type {
+  attenuation: Int
+  typeName: String
+  behaviour: Int
+  id: String
+  _version: String
+  _compatible_port_connected_to_link_Link_Type: [Link_Type]
+}
+
+type MrvOSVFunctionProperty {
+  id: ID
+}
+
+type OobManagementService {
+  id: ID
+}
+
+type HspServiceDeliveryPointInternalService {
+  id: ID
+}
+
+type NetworkVpnService {
+  id: ID
+}
+
+type Topology_Type {
+  id: ID
+}
+
+type AxeRaltDevice {
+  id: ID
+}
+
+type Zone {
+  npiId: Int
+  resourceStatus: Int
+  usageState: Int
+  administrativeState: Int
+  name: String
+  _type: String
+  id: String
+  operationalState: Int
+  _version: String
+  legacyAddressValue: String
+  _associated_zone_type_Zone_Type: [Zone_Type]
+  zone_has_level_Level: [Level]
+}
+
+type TopologyCircuit {
+  id: ID
+}
+
+type NodeCode {
+  name: String
+  id: String
+  _version: String
+}
+
+type NbnEfsFunctionProperty {
+  id: ID
+}
+
+type TestComposite {
+  id: ID
+}
+
+type Filter_Type {
+  item: String
+  serial: String
+  manufacturerName: String
+  manufacturerTypeName: String
+  typeName: String
+  typeClass: String
+  typeDescription: String
+  id: String
+  npeId: Int
+  _version: String
+  manufacturerTypeNameAlias: String
+  usageCategory: Int
+}
+
+type UnifiedCommunicationsEntity {
+  id: ID
+}
+
+type BngFsgService {
+  id: ID
+}
+
+type Shelf_Definition {
+  relativeName: String
+  resourceStatus: Int
+  name: String
+  shelfNumber: Int
+  id: String
+  _version: String
+  _has_type_Shelf_Type: [Shelf_Type]
+}
 
 type Query {
   runQuery(queryName: String!, parameters: JSON!): JSON
-  hello: String
-  devices: [Device]
-  device(id: ID!): Device
-  shelves: [Shelf]
+  verticals(npiId: Int, resourceStatus: Int, usageState: Int, comments: String, administrativeState: Int, name: String, _type: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Vertical]
+  vertical(id: ID!): Vertical
+  rbsFunctionPropertys(id: ID): [RbsFunctionProperty]
+  rbsFunctionProperty(id: ID!): RbsFunctionProperty
+  broadbandCableServices(id: ID): [BroadbandCableService]
+  broadbandCableService(id: ID!): BroadbandCableService
+  mgxFunctionPropertys(id: ID): [MgxFunctionProperty]
+  mgxFunctionProperty(id: ID!): MgxFunctionProperty
+  drawer_Types(item: String, serial: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeClass: String, typeDescription: String, id: String, npeId: Int, _version: String, manufacturerTypeNameAlias: String, usageCategory: Int): [Drawer_Type]
+  drawer_Type(id: ID!): Drawer_Type
+  slot_Definitions(relativeName: String, resourceStatus: Int, name: String, slotNumber: Int, id: String, _version: String): [Slot_Definition]
+  slot_Definition(id: ID!): Slot_Definition
+  circuitProtections(npiId: Int, resourceStatus: Int, usageState: Int, comments: String, administrativeState: Int, name: String, _type: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [CircuitProtection]
+  circuitProtection(id: ID!): CircuitProtection
+  suites(npiId: Int, name: String, id: String, _version: String, legacyAddressValue: String): [Suite]
+  suite(id: ID!): Suite
+  wipServices(id: ID): [WipService]
+  wipService(id: ID!): WipService
+  side_Types(typeName: String, id: String, npeId: Int, _version: String): [Side_Type]
+  side_Type(id: ID!): Side_Type
+  cableSet_Types(item: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeDescription: String, manufacturerTypeNameAlias: String, serial: String, typeClass: String, repairer: String, id: String, npeId: Int, _version: String, usageCategory: Int): [CableSet_Type]
+  cableSet_Type(id: ID!): CableSet_Type
+  port_Definitions(resourceStatus: Int, name: String, id: String, _version: String, portNumber: Int): [Port_Definition]
+  port_Definition(id: ID!): Port_Definition
+  externalIdentifiers(id: ID): [ExternalIdentifier]
+  externalIdentifier(id: ID!): ExternalIdentifier
+  l2VpnAccessServices(id: ID): [L2VpnAccessService]
+  l2VpnAccessService(id: ID!): L2VpnAccessService
+  circuits(id: ID): [Circuit]
+  circuit(id: ID!): Circuit
+  _Contexts(canBeModified: Boolean, excludeRelationshipCloning: Boolean, name: String, id: String, maxVersions: Int, order: Int): [_Context]
+  _Context(id: ID!): _Context
+  projects(externalId: String, id: String, _version: String): [Project]
+  project(id: ID!): Project
+  terminalBlocks(npiId: Int, address: String, comments: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [TerminalBlock]
+  terminalBlock(id: ID!): TerminalBlock
+  circuit_Types(id: ID): [Circuit_Type]
+  circuit_Type(id: ID!): Circuit_Type
+  notes(id: ID): [Note]
+  note(id: ID!): Note
+  solarPanels(npiId: Int, comments: String, serialNumber: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, arrayNumber: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [SolarPanel]
+  solarPanel(id: ID!): SolarPanel
+  slots(relativeName: String, resourceStatus: Int, name: String, slotNumber: Int, _type: String, id: String, _typeId: String, _version: String): [Slot]
+  slot(id: ID!): Slot
+  links(name: String, _type: String, id: String, _version: String): [Link]
+  link(id: ID!): Link
+  convergedCoreNetworkEntitys(id: ID): [ConvergedCoreNetworkEntity]
+  convergedCoreNetworkEntity(id: ID!): ConvergedCoreNetworkEntity
+  tlsAccessServices(id: ID): [TlsAccessService]
+  tlsAccessService(id: ID!): TlsAccessService
+  axeEtm1Devices(id: ID): [AxeEtm1Device]
+  axeEtm1Device(id: ID!): AxeEtm1Device
+  circuitProtection_Types(item: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeDescription: String, manufacturerTypeNameAlias: String, serial: String, typeClass: String, repairer: String, id: String, npeId: Int, _version: String, usageCategory: Int): [CircuitProtection_Type]
+  circuitProtection_Type(id: ID!): CircuitProtection_Type
+  level_Types(typeName: String, id: String, npeId: Int, _version: String): [Level_Type]
+  level_Type(id: ID!): Level_Type
+  accessServices(id: ID): [AccessService]
+  accessService(id: ID!): AccessService
+  partys(id: ID): [Party]
+  party(id: ID!): Party
+  mrv9xFunctionPropertys(id: ID): [Mrv9xFunctionProperty]
+  mrv9xFunctionProperty(id: ID!): Mrv9xFunctionProperty
+  unitiVcFunctionPropertys(id: ID): [UnitiVcFunctionProperty]
+  unitiVcFunctionProperty(id: ID!): UnitiVcFunctionProperty
+  convergedNetworkSlicingEntitys(id: ID): [ConvergedNetworkSlicingEntity]
+  convergedNetworkSlicingEntity(id: ID!): ConvergedNetworkSlicingEntity
+  unitiEfsFunctionPropertys(id: ID): [UnitiEfsFunctionProperty]
+  unitiEfsFunctionProperty(id: ID!): UnitiEfsFunctionProperty
+  _Schemas(name: String, id: String): [_Schema]
+  _Schema(id: ID!): _Schema
+  eisBdslUniServices(id: ID): [EisBdslUniService]
+  eisBdslUniService(id: ID!): EisBdslUniService
+  fixedConnectivityEntitys(id: ID): [FixedConnectivityEntity]
+  fixedConnectivityEntity(id: ID!): FixedConnectivityEntity
+  distributionFrames(npiId: Int, resourceStatus: Int, usageState: Int, comments: String, administrativeState: Int, name: String, _type: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [DistributionFrame]
+  distributionFrame(id: ID!): DistributionFrame
+  shelf_Types(typeName: String, behaviour: Int, id: String, _version: String): [Shelf_Type]
+  shelf_Type(id: ID!): Shelf_Type
+  networkFunctionPropertys(id: ID): [NetworkFunctionProperty]
+  networkFunctionProperty(id: ID!): NetworkFunctionProperty
+  telstraWholesaleEthernetCarrierGradeServices(id: ID): [TelstraWholesaleEthernetCarrierGradeService]
+  telstraWholesaleEthernetCarrierGradeService(id: ID!): TelstraWholesaleEthernetCarrierGradeService
+  advaz4806FunctionPropertys(id: ID): [Advaz4806FunctionProperty]
+  advaz4806FunctionProperty(id: ID!): Advaz4806FunctionProperty
+  subStructures(subStructureType: Int, name: String, id: String, _version: String): [SubStructure]
+  subStructure(id: ID!): SubStructure
+  nbnCvcServices(id: ID): [NbnCvcService]
+  nbnCvcService(id: ID!): NbnCvcService
+  places(referredType: String, role: Int, name: String, externalId: String, id: String, _version: String): [Place]
+  place(id: ID!): Place
+  tidRetailHspServiceDeliveryPointServices(id: ID): [TidRetailHspServiceDeliveryPointService]
+  tidRetailHspServiceDeliveryPointService(id: ID!): TidRetailHspServiceDeliveryPointService
+  telstraConsumerNbnServices(id: ID): [TelstraConsumerNbnService]
+  telstraConsumerNbnService(id: ID!): TelstraConsumerNbnService
+  ddsServices(id: ID): [DdsService]
+  ddsService(id: ID!): DdsService
+  ports(resourceStatus: Int, name: String, _type: String, id: String, _typeId: String, _version: String, portNumber: Int): [Port]
+  port(id: ID!): Port
+  antenna_Types(item: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeDescription: String, manufacturerTypeNameAlias: String, serial: String, typeClass: String, repairer: String, id: String, npeId: Int, _version: String, usageCategory: Int): [Antenna_Type]
+  antenna_Type(id: ID!): Antenna_Type
+  slot_Types(typeName: String, id: String, _version: String): [Slot_Type]
+  slot_Type(id: ID!): Slot_Type
+  switchFunctionPropertys(id: ID): [SwitchFunctionProperty]
+  switchFunctionProperty(id: ID!): SwitchFunctionProperty
+  unitiOacServices(id: ID): [UnitiOacService]
+  unitiOacService(id: ID!): UnitiOacService
+  broadbandSatelliteServices(id: ID): [BroadbandSatelliteService]
+  broadbandSatelliteService(id: ID!): BroadbandSatelliteService
+  l2AccessLegServices(id: ID): [L2AccessLegService]
+  l2AccessLegService(id: ID!): L2AccessLegService
+  battery_Types(item: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeDescription: String, manufacturerTypeNameAlias: String, serial: String, typeClass: String, repairer: String, id: String, npeId: Int, _version: String, usageCategory: Int): [Battery_Type]
+  battery_Type(id: ID!): Battery_Type
+  batterys(npiId: Int, resourceStatus: Int, usageState: Int, comments: String, administrativeState: Int, name: String, _type: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Battery]
+  battery(id: ID!): Battery
+  nbnVcFunctionPropertys(id: ID): [NbnVcFunctionProperty]
+  nbnVcFunctionProperty(id: ID!): NbnVcFunctionProperty
+  rack_Types(heightUnits: Int, variableHeight: Boolean, item: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeDescription: String, bottomUpNumbering: Boolean, manufacturerTypeNameAlias: String, depthUnits: Int, depth: Int, serial: String, typeClass: String, repairer: String, width: Int, id: String, npeId: Int, _version: String, usageCategory: Int, height: Int, widthUnits: Int): [Rack_Type]
+  rack_Type(id: ID!): Rack_Type
+  networkCloud_Types(id: ID): [NetworkCloud_Type]
+  networkCloud_Type(id: ID!): NetworkCloud_Type
+  nodeBMobilesBackhaulServices(id: ID): [NodeBMobilesBackhaulService]
+  nodeBMobilesBackhaulService(id: ID!): NodeBMobilesBackhaulService
+  threeGppIubInterfaceServices(id: ID): [ThreeGppIubInterfaceService]
+  threeGppIubInterfaceService(id: ID!): ThreeGppIubInterfaceService
+  broadbandServices(id: ID): [BroadbandService]
+  broadbandService(id: ID!): BroadbandService
+  jprExFunctionPropertys(id: ID): [JprExFunctionProperty]
+  jprExFunctionProperty(id: ID!): JprExFunctionProperty
+  distributionFrame_Types(heightUnits: Int, item: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeDescription: String, manufacturerTypeNameAlias: String, depthUnits: Int, depth: Int, serial: String, typeClass: String, width: Int, id: String, npeId: Int, _version: String, usageCategory: Int, height: Int, widthUnits: Int): [DistributionFrame_Type]
+  distributionFrame_Type(id: ID!): DistributionFrame_Type
+  _ComplexTypes(name: String, id: String): [_ComplexType]
+  _ComplexType(id: ID!): _ComplexType
+  bundleServices(id: ID): [BundleService]
+  bundleService(id: ID!): BundleService
+  nbnNniPortServices(id: ID): [NbnNniPortService]
+  nbnNniPortService(id: ID!): NbnNniPortService
+  isamBackhaulServices(id: ID): [IsamBackhaulService]
+  isamBackhaulService(id: ID!): IsamBackhaulService
+  zone_Types(typeName: String, id: String, npeId: Int, _version: String): [Zone_Type]
+  zone_Type(id: ID!): Zone_Type
+  tidWholesaleHspServiceDeliveryPointServices(id: ID): [TidWholesaleHspServiceDeliveryPointService]
+  tidWholesaleHspServiceDeliveryPointService(id: ID!): TidWholesaleHspServiceDeliveryPointService
+  eisEvcServices(id: ID): [EisEvcService]
+  eisEvcService(id: ID!): EisEvcService
+  adslServices(id: ID): [AdslService]
+  adslService(id: ID!): AdslService
+  shelfs(relativeName: String, resourceStatus: Int, name: String, _type: String, shelfNumber: Int, id: String, _typeId: String, _version: String): [Shelf]
   shelf(id: ID!): Shelf
+  broadbandFttpServices(id: ID): [BroadbandFttpService]
+  broadbandFttpService(id: ID!): BroadbandFttpService
+  link_Types(typeName: String, id: String, _version: String): [Link_Type]
+  link_Type(id: ID!): Link_Type
+  unitiNniGroupServices(id: ID): [UnitiNniGroupService]
+  unitiNniGroupService(id: ID!): UnitiNniGroupService
+  ontFunctionPropertys(id: ID): [OntFunctionProperty]
+  ontFunctionProperty(id: ID!): OntFunctionProperty
+  itFunctionPropertys(id: ID): [ItFunctionProperty]
+  itFunctionProperty(id: ID!): ItFunctionProperty
+  racks(npiId: Int, comments: String, serialNumber: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String, barcode: String): [Rack]
+  rack(id: ID!): Rack
+  numbers(id: ID): [Number]
+  number(id: ID!): Number
+  testAggregates(id: ID): [TestAggregate]
+  testAggregate(id: ID!): TestAggregate
+  bandwidths(id: ID): [Bandwidth]
+  bandwidth(id: ID!): Bandwidth
+  axeRimDevices(id: ID): [AxeRimDevice]
+  axeRimDevice(id: ID!): AxeRimDevice
+  nok7750FunctionPropertys(id: ID): [Nok7750FunctionProperty]
+  nok7750FunctionProperty(id: ID!): Nok7750FunctionProperty
+  powerSocket_Types(id: ID): [PowerSocket_Type]
+  powerSocket_Type(id: ID!): PowerSocket_Type
+  telstraConsumerUnitiServices(id: ID): [TelstraConsumerUnitiService]
+  telstraConsumerUnitiService(id: ID!): TelstraConsumerUnitiService
+  antennas(npiId: Int, comments: String, serialNumber: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Antenna]
+  antenna(id: ID!): Antenna
+  contentDeliveryServices(id: ID): [ContentDeliveryService]
+  contentDeliveryService(id: ID!): ContentDeliveryService
+  wspVpnAccessServices(id: ID): [WspVpnAccessService]
+  wspVpnAccessService(id: ID!): WspVpnAccessService
+  vplsServices(id: ID): [VplsService]
+  vplsService(id: ID!): VplsService
+  eisEvplServices(id: ID): [EisEvplService]
+  eisEvplService(id: ID!): EisEvplService
+  nBNVDMs(id: ID): [NBNVDM]
+  nBNVDM(id: ID!): NBNVDM
+  device_Types(item: String, serial: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeClass: String, typeDescription: String, id: String, npeId: Int, _version: String, manufacturerTypeNameAlias: String, usageCategory: Int): [Device_Type]
+  device_Type(id: ID!): Device_Type
+  nbnUniEServices(id: ID): [NbnUniEService]
+  nbnUniEService(id: ID!): NbnUniEService
+  wholesaleServiceProviderServices(id: ID): [WholesaleServiceProviderService]
+  wholesaleServiceProviderService(id: ID!): WholesaleServiceProviderService
+  nbnProductServices(id: ID): [NbnProductService]
+  nbnProductService(id: ID!): NbnProductService
+  filters(npiId: Int, comments: String, serialNumber: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Filter]
+  filter(id: ID!): Filter
+  imsBltServices(id: ID): [ImsBltService]
+  imsBltService(id: ID!): ImsBltService
+  vpwsServices(id: ID): [VpwsService]
+  vpwsService(id: ID!): VpwsService
+  _Relationships(backLinkName: String, name: String, id: String, tmfType: String): [_Relationship]
+  _Relationship(id: ID!): _Relationship
+  unitiProductServices(id: ID): [UnitiProductService]
+  unitiProductService(id: ID!): UnitiProductService
+  videoOnDemandServices(id: ID): [VideoOnDemandService]
+  videoOnDemandService(id: ID!): VideoOnDemandService
+  compositeServices(id: ID): [CompositeService]
+  compositeService(id: ID!): CompositeService
+  wspVpnServices(id: ID): [WspVpnService]
+  wspVpnService(id: ID!): WspVpnService
+  fuseHolders(npiId: Int, resourceStatus: Int, usageState: Int, comments: String, administrativeState: Int, name: String, _type: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [FuseHolder]
+  fuseHolder(id: ID!): FuseHolder
+  tNIs(id: ID): [TNI]
+  tNI(id: ID!): TNI
+  items(npiId: Int, comments: String, serialNumber: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Item]
+  item(id: ID!): Item
+  nbnFunctionPropertys(id: ID): [NbnFunctionProperty]
+  nbnFunctionProperty(id: ID!): NbnFunctionProperty
+  oRCHASSs(id: ID): [ORCHASS]
+  oRCHASS(id: ID!): ORCHASS
+  wipUniServices(id: ID): [WipUniService]
+  wipUniService(id: ID!): WipUniService
+  bBNSEs(id: ID): [BBNSE]
+  bBNSE(id: ID!): BBNSE
+  item_Types(item: String, serial: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeClass: String, typeDescription: String, id: String, npeId: Int, _version: String, manufacturerTypeNameAlias: String, usageCategory: Int): [Item_Type]
+  item_Type(id: ID!): Item_Type
+  number_Types(id: ID): [Number_Type]
+  number_Type(id: ID!): Number_Type
+  _EnumerationLiterals(name: String, id: String, value: Int): [_EnumerationLiteral]
+  _EnumerationLiteral(id: ID!): _EnumerationLiteral
+  tdmServices(id: ID): [TdmService]
+  tdmService(id: ID!): TdmService
+  internetServices(id: ID): [InternetService]
+  internetService(id: ID!): InternetService
+  powerCable_Types(id: ID): [PowerCable_Type]
+  powerCable_Type(id: ID!): PowerCable_Type
+  vertical_Types(typeName: String, id: String, npeId: Int, _version: String): [Vertical_Type]
+  vertical_Type(id: ID!): Vertical_Type
+  ethernetLineServices(id: ID): [EthernetLineService]
+  ethernetLineService(id: ID!): EthernetLineService
+  pSTNEntitys(id: ID): [PSTNEntity]
+  pSTNEntity(id: ID!): PSTNEntity
+  cards(npiId: Int, comments: String, serialNumber: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String, barcode: String): [Card]
+  card(id: ID!): Card
+  wirelessIpServices(id: ID): [WirelessIpService]
+  wirelessIpService(id: ID!): WirelessIpService
+  nbnAvcServices(id: ID): [NbnAvcService]
+  nbnAvcService(id: ID!): NbnAvcService
+  vpnAccessServices(id: ID): [VpnAccessService]
+  vpnAccessService(id: ID!): VpnAccessService
+  levels(npiId: Int, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, _type: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Level]
+  level(id: ID!): Level
+  nok7250FunctionPropertys(id: ID): [Nok7250FunctionProperty]
+  nok7250FunctionProperty(id: ID!): Nok7250FunctionProperty
+  unitiNniPortServices(id: ID): [UnitiNniPortService]
+  unitiNniPortService(id: ID!): UnitiNniPortService
+  jprMxFunctionPropertys(id: ID): [JprMxFunctionProperty]
+  jprMxFunctionProperty(id: ID!): JprMxFunctionProperty
+  nbnNniGroupServices(id: ID): [NbnNniGroupService]
+  nbnNniGroupService(id: ID!): NbnNniGroupService
+  mobilityVoiceServices(id: ID): [MobilityVoiceService]
+  mobilityVoiceService(id: ID!): MobilityVoiceService
+  terminalBlock_Types(manufacturerName: String, manufacturerTypeName: String, typeName: String, typeClass: String, typeDescription: String, id: String, npeId: Int, _version: String, manufacturerTypeNameAlias: String, usageCategory: Int): [TerminalBlock_Type]
+  terminalBlock_Type(id: ID!): TerminalBlock_Type
+  sides(npiId: Int, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, _type: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Side]
+  side(id: ID!): Side
+  radioAccessNetworkEntitys(id: ID): [RadioAccessNetworkEntity]
+  radioAccessNetworkEntity(id: ID!): RadioAccessNetworkEntity
+  dataCentreNetworkingEntitys(id: ID): [DataCentreNetworkingEntity]
+  dataCentreNetworkingEntity(id: ID!): DataCentreNetworkingEntity
+  _Enumerations(name: String, id: String): [_Enumeration]
+  _Enumeration(id: ID!): _Enumeration
+  _Propertys(name: String, id: String, type: String, required: Boolean): [_Property]
+  _Property(id: ID!): _Property
+  unitiFunctionPropertys(id: ID): [UnitiFunctionProperty]
+  unitiFunctionProperty(id: ID!): UnitiFunctionProperty
+  serviceManagementServices(id: ID): [ServiceManagementService]
+  serviceManagementService(id: ID!): ServiceManagementService
+  jprVcFunctionPropertys(id: ID): [JprVcFunctionProperty]
+  jprVcFunctionProperty(id: ID!): JprVcFunctionProperty
+  drawers(npiId: Int, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, _type: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Drawer]
+  drawer(id: ID!): Drawer
+  adaptiveNetworkEntitys(id: ID): [AdaptiveNetworkEntity]
+  adaptiveNetworkEntity(id: ID!): AdaptiveNetworkEntity
+  tray_Types(heightUnits: Int, variableHeight: Boolean, item: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeDescription: String, bottomUpNumbering: Boolean, manufacturerTypeNameAlias: String, depthUnits: Int, depth: Int, serial: String, typeClass: String, width: Int, repairer: String, id: String, npeId: Int, _version: String, usageCategory: Int, height: Int, widthUnits: Int): [Tray_Type]
+  tray_Type(id: ID!): Tray_Type
+  trays(npiId: Int, resourceStatus: Int, comments: String, name: String, _type: String, manufactureDate: String, id: String, _version: String, legacyAddressValue: String): [Tray]
+  tray(id: ID!): Tray
+  axeDevices(id: ID): [AxeDevice]
+  axeDevice(id: ID!): AxeDevice
+  orderItems(id: ID): [OrderItem]
+  orderItem(id: ID!): OrderItem
+  convergedCoreSubscriptionManagements(id: ID): [ConvergedCoreSubscriptionManagement]
+  convergedCoreSubscriptionManagement(id: ID!): ConvergedCoreSubscriptionManagement
+  cmnManagementServices(id: ID): [CmnManagementService]
+  cmnManagementService(id: ID!): CmnManagementService
+  epiCentreHspServiceDeliveryPointServices(id: ID): [EpiCentreHspServiceDeliveryPointService]
+  epiCentreHspServiceDeliveryPointService(id: ID!): EpiCentreHspServiceDeliveryPointService
+  axeCcsDevices(id: ID): [AxeCcsDevice]
+  axeCcsDevice(id: ID!): AxeCcsDevice
+  endToEndConnectionServices(id: ID): [EndToEndConnectionService]
+  endToEndConnectionService(id: ID!): EndToEndConnectionService
+  cableSets(npiId: Int, serialNumber: String, comments: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [CableSet]
+  cableSet(id: ID!): CableSet
+  crsFunctionPropertys(id: ID): [CrsFunctionProperty]
+  crsFunctionProperty(id: ID!): CrsFunctionProperty
+  voiceServices(id: ID): [VoiceService]
+  voiceService(id: ID!): VoiceService
+  nbnOvcServices(id: ID): [NbnOvcService]
+  nbnOvcService(id: ID!): NbnOvcService
+  publicLabelDeliveryServices(id: ID): [PublicLabelDeliveryService]
+  publicLabelDeliveryService(id: ID!): PublicLabelDeliveryService
+  sdhFunctionPropertys(id: ID): [SdhFunctionProperty]
+  sdhFunctionProperty(id: ID!): SdhFunctionProperty
+  vpnServices(id: ID): [VpnService]
+  vpnService(id: ID!): VpnService
+  bandwidth_Types(id: ID): [Bandwidth_Type]
+  bandwidth_Type(id: ID!): Bandwidth_Type
+  siuFunctionPropertys(id: ID): [SiuFunctionProperty]
+  siuFunctionProperty(id: ID!): SiuFunctionProperty
+  devices(npiId: Int, comments: String, serialNumber: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String, barcode: String): [Device]
+  device(id: ID!): Device
+  fixedNetworkEntitys(id: ID): [FixedNetworkEntity]
+  fixedNetworkEntity(id: ID!): FixedNetworkEntity
+  _Objects(typesSupported: Boolean, name: String, id: String, abstract: Boolean, category: String): [_Object]
+  _Object(id: ID!): _Object
+  topologys(id: ID): [Topology]
+  topology(id: ID!): Topology
+  ofaServices(id: ID): [OfaService]
+  ofaService(id: ID!): OfaService
+  eisUniServices(id: ID): [EisUniService]
+  eisUniService(id: ID!): EisUniService
+  unitiOcvServices(id: ID): [UnitiOcvService]
+  unitiOcvService(id: ID!): UnitiOcvService
+  card_Types(item: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeDescription: String, manufacturerTypeNameAlias: String, serial: String, typeClass: String, repairer: String, id: String, npeId: Int, _version: String, usageCategory: Int): [Card_Type]
+  card_Type(id: ID!): Card_Type
+  tlsServices(id: ID): [TlsService]
+  tlsService(id: ID!): TlsService
+  fuseHolder_Types(manufacturerName: String, manufacturerTypeName: String, typeName: String, typeClass: String, typeDescription: String, id: String, npeId: Int, _version: String, manufacturerTypeNameAlias: String, usageCategory: Int): [FuseHolder_Type]
+  fuseHolder_Type(id: ID!): FuseHolder_Type
+  serviceSpecifications(id: ID): [ServiceSpecification]
+  serviceSpecification(id: ID!): ServiceSpecification
+  eisEplServices(id: ID): [EisEplService]
+  eisEplService(id: ID!): EisEplService
+  threeGppX2InterfaceServices(id: ID): [ThreeGppX2InterfaceService]
+  threeGppX2InterfaceService(id: ID!): ThreeGppX2InterfaceService
+  threeGppS1InterfaceServices(id: ID): [ThreeGppS1InterfaceService]
+  threeGppS1InterfaceService(id: ID!): ThreeGppS1InterfaceService
+  powerSockets(id: ID): [PowerSocket]
+  powerSocket(id: ID!): PowerSocket
+  networkClouds(id: ID): [NetworkCloud]
+  networkCloud(id: ID!): NetworkCloud
+  solarPanel_Types(item: String, serial: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeClass: String, typeDescription: String, id: String, npeId: Int, _version: String, manufacturerTypeNameAlias: String, usageCategory: Int): [SolarPanel_Type]
+  solarPanel_Type(id: ID!): SolarPanel_Type
+  threeGppAbisInterfaceServices(id: ID): [ThreeGppAbisInterfaceService]
+  threeGppAbisInterfaceService(id: ID!): ThreeGppAbisInterfaceService
+  port_Types(attenuation: Int, typeName: String, behaviour: Int, id: String, _version: String): [Port_Type]
+  port_Type(id: ID!): Port_Type
+  mrvOSVFunctionPropertys(id: ID): [MrvOSVFunctionProperty]
+  mrvOSVFunctionProperty(id: ID!): MrvOSVFunctionProperty
+  oobManagementServices(id: ID): [OobManagementService]
+  oobManagementService(id: ID!): OobManagementService
+  hspServiceDeliveryPointInternalServices(id: ID): [HspServiceDeliveryPointInternalService]
+  hspServiceDeliveryPointInternalService(id: ID!): HspServiceDeliveryPointInternalService
+  networkVpnServices(id: ID): [NetworkVpnService]
+  networkVpnService(id: ID!): NetworkVpnService
+  topology_Types(id: ID): [Topology_Type]
+  topology_Type(id: ID!): Topology_Type
+  axeRaltDevices(id: ID): [AxeRaltDevice]
+  axeRaltDevice(id: ID!): AxeRaltDevice
+  zones(npiId: Int, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, _type: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Zone]
+  zone(id: ID!): Zone
+  topologyCircuits(id: ID): [TopologyCircuit]
+  topologyCircuit(id: ID!): TopologyCircuit
+  nodeCodes(name: String, id: String, _version: String): [NodeCode]
+  nodeCode(id: ID!): NodeCode
+  nbnEfsFunctionPropertys(id: ID): [NbnEfsFunctionProperty]
+  nbnEfsFunctionProperty(id: ID!): NbnEfsFunctionProperty
+  testComposites(id: ID): [TestComposite]
+  testComposite(id: ID!): TestComposite
+  filter_Types(item: String, serial: String, manufacturerName: String, manufacturerTypeName: String, typeName: String, typeClass: String, typeDescription: String, id: String, npeId: Int, _version: String, manufacturerTypeNameAlias: String, usageCategory: Int): [Filter_Type]
+  filter_Type(id: ID!): Filter_Type
+  unifiedCommunicationsEntitys(id: ID): [UnifiedCommunicationsEntity]
+  unifiedCommunicationsEntity(id: ID!): UnifiedCommunicationsEntity
+  bngFsgServices(id: ID): [BngFsgService]
+  bngFsgService(id: ID!): BngFsgService
+  shelf_Definitions(relativeName: String, resourceStatus: Int, name: String, shelfNumber: Int, id: String, _version: String): [Shelf_Definition]
+  shelf_Definition(id: ID!): Shelf_Definition
 }
+
+scalar JSON

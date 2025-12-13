@@ -28,8 +28,19 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<tni.commonutils.version>0.73.0-SNAPSHOT</tni.commonutils.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>com.telstra.tni</groupId>
+			<artifactId>tni-common-utils</artifactId>
+			<version>${tni.commonutils.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-neo4j</artifactId>

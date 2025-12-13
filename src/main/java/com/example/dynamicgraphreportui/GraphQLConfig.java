@@ -1,32 +1,32 @@
 package com.example.dynamicgraphreportui;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.neo4j.driver.Driver;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
-import org.neo4j.driver.SessionConfig;
 import org.neo4j.driver.TransactionContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
+import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
+
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.DataFetcher;
+import graphql.schema.GraphQLList;
 
 @Configuration
 public class GraphQLConfig {
 
     private final SchemaBasedQueryGenerator schemaBasedQueryGenerator;
-    private final Driver driver;
+    private final DatabaseDriver databaseDriver;
     private final QueryService queryService;
 
-    public GraphQLConfig(SchemaBasedQueryGenerator schemaBasedQueryGenerator, Driver driver, QueryService queryService) {
+    public GraphQLConfig(SchemaBasedQueryGenerator schemaBasedQueryGenerator, DatabaseDriver databaseDriver, QueryService queryService) {
         this.schemaBasedQueryGenerator = schemaBasedQueryGenerator;
-        this.driver = driver;
+        this.databaseDriver = databaseDriver;
         this.queryService = queryService;
     }
 
@@ -35,51 +35,30 @@ public class GraphQLConfig {
         return wiringBuilder -> wiringBuilder
                 .scalar(ExtendedScalars.Json)
                 .type("Query", builder -> builder
-                        .dataFetcher("devices", devicesDataFetcher())
-                        .dataFetcher("device", deviceDataFetcher())
-                        .dataFetcher("shelves", shelvesDataFetcher())
-                        .dataFetcher("shelf", shelfDataFetcher())
                         .dataFetcher("runQuery", runQueryDataFetcher())
+                        .defaultDataFetcher(genericDataFetcher())
                 );
     }
 
-    private DataFetcher<Object> devicesDataFetcher() {
+    private DataFetcher<Object> genericDataFetcher() {
         return environment -> {
             String cypher = schemaBasedQueryGenerator.generateQuery(environment);
-            System.out.println("Schema-based generated Cypher for devices: " + cypher);
-            List<Map<String, Object>> results = executeQuery(cypher, Collections.emptyMap());
-            return results.stream().map(r -> r.get("device")).collect(java.util.stream.Collectors.toList());
-        };
-    }
-
-    private DataFetcher<Object> deviceDataFetcher() {
-        return environment -> {
-            String cypher = schemaBasedQueryGenerator.generateQuery(environment);
-            System.out.println("Schema-based generated Cypher for device: " + cypher);
-            String id = environment.getArgument("id");
-            Map<String, Object> parameters = Map.of("id", id);
-            List<Map<String, Object>> results = executeQuery(cypher, parameters);
-            return results.isEmpty() ? null : results.get(0).get("device");
-        };
-    }
-
-    private DataFetcher<Object> shelvesDataFetcher() {
-        return environment -> {
-            String cypher = schemaBasedQueryGenerator.generateQuery(environment);
-            System.out.println("Schema-based generated Cypher for shelves: " + cypher);
-            List<Map<String, Object>> results = executeQuery(cypher, Collections.emptyMap());
-            return results.stream().map(r -> r.get("shelf")).collect(java.util.stream.Collectors.toList());
-        };
-    }
-
-    private DataFetcher<Object> shelfDataFetcher() {
-        return environment -> {
-            String cypher = schemaBasedQueryGenerator.generateQuery(environment);
-            System.out.println("Schema-based generated Cypher for shelf: " + cypher);
-            String id = environment.getArgument("id");
-            Map<String, Object> parameters = Map.of("id", id);
-            List<Map<String, Object>> results = executeQuery(cypher, parameters);
-            return results.isEmpty() ? null : results.get(0).get("shelf");
+            System.out.println("Generic DataFetcher Cypher: " + cypher);
+            
+            Map<String, Object> args = environment.getArguments();
+            List<Map<String, Object>> results = executeQuery(cypher, args);
+            
+            boolean isList = environment.getFieldDefinition().getType() instanceof GraphQLList;
+            
+            if (isList) {
+                return results.stream()
+                        .map(r -> r.values().isEmpty() ? null : r.values().iterator().next())
+                        .collect(java.util.stream.Collectors.toList());
+            } else {
+                if (results.isEmpty()) return null;
+                Map<String, Object> firstRow = results.get(0);
+                return firstRow.values().isEmpty() ? null : firstRow.values().iterator().next();
+            }
         };
     }
 
@@ -93,7 +72,7 @@ public class GraphQLConfig {
     }
 
     private List<Map<String, Object>> executeQuery(String cypher, Map<String, Object> parameters) {
-        try (Session session = driver.session(SessionConfig.forDatabase("neo4jmitsonly1"))) {
+        try (Session session = databaseDriver.sessionFor()) {
             List<Record> recordList = executeRead(session, cypher, parameters);
             return recordList.stream()
                     .map(record -> record.asMap())

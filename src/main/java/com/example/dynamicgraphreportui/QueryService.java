@@ -5,24 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.neo4j.driver.Driver;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
-import org.neo4j.driver.SessionConfig;
 import org.neo4j.driver.Value;
 import org.neo4j.driver.types.Node;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
 
+import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
+
 @Service
 public class QueryService {
 
     private final Map<String, Map<String, String>> queries;
-    private final Driver driver;
+    private final DatabaseDriver databaseDriver;
 
-    public QueryService(Driver driver) {
-        this.driver = driver;
+    public QueryService(DatabaseDriver databaseDriver) {
+        this.databaseDriver = databaseDriver;
         Yaml yaml = new Yaml();
         InputStream inputStream = this.getClass()
                 .getClassLoader()
@@ -32,8 +32,21 @@ public class QueryService {
 
     public Object getQueryResult(String queryName, Map<String, Object> parameters) {
         System.out.println("QueryService.getQueryResult called with queryName: " + queryName + ", parameters: " + parameters);
-        try (Session session = driver.session(SessionConfig.forDatabase("neo4jmitsonly1"))) {
+        try (Session session = databaseDriver.sessionFor()) {
             String cypher = queries.get(queryName).get("cypher");
+            
+            // Handle dynamic replacements (e.g., {{label}})
+            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                String placeholder = "{{" + key + "}}";
+                if (cypher.contains(placeholder) && value instanceof String) {
+                    // Simple injection protection: only allow alphanumeric and underscores
+                    String safeValue = ((String) value).replaceAll("[^a-zA-Z0-9_]", "");
+                    cypher = cypher.replace(placeholder, safeValue);
+                }
+            }
+
             System.out.println("Executing cypher: " + cypher);
             Result result = session.run(cypher, parameters);
             List<Map<String, Object>> list = result.list(r -> convertRecord(r));

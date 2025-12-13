@@ -1,6 +1,7 @@
 package com.example.dynamicgraphreportui;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -43,6 +44,19 @@ public class SchemaBasedQueryGenerator {
     private String generateListQuery(String typeName, GraphQLObjectType objectType, DataFetchingEnvironment environment) {
         StringBuilder cypher = new StringBuilder();
         cypher.append("MATCH (n:").append(typeName).append(")");
+        
+        Map<String, Object> arguments = environment.getArguments();
+        if (!arguments.isEmpty()) {
+            cypher.append(" WHERE ");
+            boolean first = true;
+            for (String key : arguments.keySet()) {
+                if (!first) {
+                    cypher.append(" AND ");
+                }
+                cypher.append("n.").append(key).append(" = $").append(key);
+                first = false;
+            }
+        }
         
         // Get requested relationship fields from GraphQL selection
         List<String> relationshipFields = getRelationshipFields(environment, objectType);
