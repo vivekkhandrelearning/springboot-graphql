@@ -13,7 +13,7 @@ import org.neo4j.driver.types.Node;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
 
-import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
+import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
 
 @Service
 public class QueryService {
