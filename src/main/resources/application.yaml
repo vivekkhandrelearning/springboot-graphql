@@ -38,3 +38,7 @@ logging:
 build:
   version: '@project.version@'
   timestamp: '@maven.build.timestamp@'
+app:
+  rate-limit:
+    capacity: 20
+    duration: 1m

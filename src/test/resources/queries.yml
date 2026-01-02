@@ -1,0 +1,4 @@
+testQuery:
+  cypher: "MATCH (n) RETURN n"
+parameterizedQuery:
+  cypher: "MATCH (n:Person) WHERE n.name = '{{name}}' RETURN n"
