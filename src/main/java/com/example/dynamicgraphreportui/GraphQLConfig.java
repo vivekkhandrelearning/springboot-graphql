@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
-import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
+import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
 
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.DataFetcher;
