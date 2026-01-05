@@ -54,7 +54,7 @@ class RateLimitFilterTest {
 
     @Test
     void doFilter_GraphqlRequest_WithinLimit_ShouldProceed() throws Exception {
-        when(request.getRequestURI()).thenReturn("/graphql");
+        when(request.getRequestURI()).thenReturn("/api/v1/graphql");
         when(request.getHeader("X-Forwarded-For")).thenReturn(null);
         when(request.getRemoteAddr()).thenReturn("127.0.0.1");
         when(rateLimitingService.resolveBucket("127.0.0.1")).thenReturn(bucket);
@@ -70,7 +70,7 @@ class RateLimitFilterTest {
 
     @Test
     void doFilter_GraphqlRequest_ExceededLimit_ShouldReturn429() throws Exception {
-        when(request.getRequestURI()).thenReturn("/graphql");
+        when(request.getRequestURI()).thenReturn("/api/v1/graphql");
         when(request.getHeader("X-Forwarded-For")).thenReturn(null);
         when(request.getRemoteAddr()).thenReturn("127.0.0.1");
         when(rateLimitingService.resolveBucket("127.0.0.1")).thenReturn(bucket);
@@ -88,7 +88,7 @@ class RateLimitFilterTest {
 
     @Test
     void doFilter_UsesXForwardedFor_WhenPresent() throws Exception {
-        when(request.getRequestURI()).thenReturn("/graphql");
+        when(request.getRequestURI()).thenReturn("/api/v1/graphql");
         when(request.getHeader("X-Forwarded-For")).thenReturn("10.0.0.1, 192.168.1.1");
         when(rateLimitingService.resolveBucket("10.0.0.1")).thenReturn(bucket);
         when(bucket.tryConsumeAndReturnRemaining(1)).thenReturn(probe);

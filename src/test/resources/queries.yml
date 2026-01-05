@@ -1,4 +1,10 @@
 testQuery:
   cypher: "MATCH (n) RETURN n"
+  fieldMapping: {}
 parameterizedQuery:
   cypher: "MATCH (n:Person) WHERE n.name = '{{name}}' RETURN n"
+  fieldMapping: {}
+getAntennaReport:
+  cypher: "MATCH (obj:Antenna) WHERE {{WHERE_CLAUSE}} RETURN obj"
+  fieldMapping:
+    manufacturer_type: "obj.manufacturerType"

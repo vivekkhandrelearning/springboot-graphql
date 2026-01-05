@@ -1369,8 +1369,45 @@ type Shelf_Definition {
   _has_type_Shelf_Type: [Shelf_Type]
 }
 
+enum Op { EQ IN CONTAINS GT LT NEQ }
+enum SortDirection { ASC DESC }
+
+input FilterInput {
+  field: String!
+  op: Op!
+  values: [String]
+}
+
+input SortInput {
+  field: String!
+  direction: SortDirection
+}
+
+input PaginationInput {
+  page: Int
+  pageSize: Int
+}
+
+type PageInfo {
+  page: Int
+  pageSize: Int
+  totalItems: Int
+  totalPages: Int
+}
+
+type ReportResult {
+  rows: [JSON]
+  pageInfo: PageInfo
+}
+
 type Query {
   runQuery(queryName: String!, parameters: JSON!): JSON
+  customFullReport(
+    type: String!, 
+    filters: [FilterInput], 
+    sort: [SortInput], 
+    pagination: PaginationInput
+  ): ReportResult
   verticals(npiId: Int, resourceStatus: Int, usageState: Int, comments: String, administrativeState: Int, name: String, _type: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Vertical]
   vertical(id: ID!): Vertical
   rbsFunctionPropertys(id: ID): [RbsFunctionProperty]
@@ -1759,6 +1796,11 @@ type Query {
   bngFsgService(id: ID!): BngFsgService
   shelf_Definitions(relativeName: String, resourceStatus: Int, name: String, shelfNumber: Int, id: String, _version: String): [Shelf_Definition]
   shelf_Definition(id: ID!): Shelf_Definition
+  getAntennaReport(id: ID, npiId: Int, limit: Int, page: Int): [JSON]
+  getAntennaDetails: [JSON]
+  getBatteryDetails: [JSON]
+  getCardDetails: [JSON]
+  getDeviceDetails: [JSON]
 }
 
 scalar JSON

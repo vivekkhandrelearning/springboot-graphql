@@ -34,10 +34,48 @@ public class GraphQLConfig {
     public RuntimeWiringConfigurer runtimeWiringConfigurer() {
         return wiringBuilder -> wiringBuilder
                 .scalar(ExtendedScalars.Json)
-                .type("Query", builder -> builder
-                        .dataFetcher("runQuery", runQueryDataFetcher())
-                        .defaultDataFetcher(genericDataFetcher())
-                );
+                .type("Query", builder -> {
+                    builder.dataFetcher("runQuery", runQueryDataFetcher())
+                           .dataFetcher("customFullReport", customFullReportDataFetcher())
+                           .defaultDataFetcher(genericDataFetcher());
+                    
+                    for (String queryName : queryService.getQueryNames()) {
+                        builder.dataFetcher(queryName, createDynamicDataFetcher(queryName));
+                    }
+                    return builder;
+                });
+    }
+
+    private DataFetcher<Object> customFullReportDataFetcher() {
+        return environment -> {
+            Map<String, Object> args = new java.util.HashMap<>(environment.getArguments());
+            String type = (String) args.get("type");
+            // Map type to query name
+            String queryName = "get" + type + "Report"; 
+            
+            return queryService.getQueryResult(queryName, args);
+        };
+    }
+
+    private DataFetcher<Object> createDynamicDataFetcher(String queryName) {
+        return environment -> {
+            java.util.Map<String, Object> args = new java.util.HashMap<>(environment.getArguments());
+            
+            // Apply generic pagination logic if applicable
+            if (args.containsKey("page") || args.containsKey("limit")) {
+                int limit = (int) args.getOrDefault("limit", 10);
+                int page = (int) args.getOrDefault("page", 0);
+                int offset = page * limit;
+                args.put("limit", limit);
+                args.put("offset", offset);
+            }
+            
+            // Ensure nulls for known filter parameters if missing (optional, but safe for getAntennaReport)
+            args.putIfAbsent("id", null);
+            args.putIfAbsent("npiId", null);
+
+            return queryService.getQueryResult(queryName, args);
+        };
     }
 
     private DataFetcher<Object> genericDataFetcher() {

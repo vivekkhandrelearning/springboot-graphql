@@ -1,7 +1,8 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT:8087}
 spring:
   graphql:
+    path: /api/v1/graphql
     graphiql:
       enabled: true
   application:
