@@ -12,14 +12,18 @@ import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Value;
 import org.neo4j.driver.types.Node;
+import org.owasp.esapi.ESAPI;
+import org.owasp.esapi.Logger;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
 
 import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
 
 @Service
+@Slf4j
 public class QueryService {
 
+    private static final Logger logger = ESAPI.getLogger(QueryService.class);
     private final Map<String, Map<String, Object>> queries;
     private final DatabaseDriver databaseDriver;
 
@@ -37,7 +41,8 @@ public class QueryService {
     }
 
     public Object getQueryResult(String queryName, Map<String, Object> parameters) {
-        System.out.println("QueryService.getQueryResult called with queryName: " + queryName + ", parameters: " + parameters);
+        List<Map<String, Object>> rows = new ArrayList<>();
+        logger.info(Logger.EVENT_SUCCESS, "QueryService.getQueryResult called with queryName: " + queryName + ", parameters: " + parameters);
         try (Session session = databaseDriver.sessionFor()) {
             Map<String, Object> queryDefinition = queries.get(queryName);
             String cypher = (String) queryDefinition.get("cypher");
@@ -59,81 +64,51 @@ public class QueryService {
                     }
                 }
             }
-
-            // Append ORDER BY if sort is present
-            if (parameters.containsKey("sort")) {
-                List<Map<String, Object>> sortList = (List<Map<String, Object>>) parameters.get("sort");
-                if (sortList != null && !sortList.isEmpty() && fieldMapping != null) {
-                    List<String> orderBys = new ArrayList<>();
-                    for (Map<String, Object> sort : sortList) {
-                        String field = (String) sort.get("field");
-                        String direction = (String) sort.get("direction");
-                        String dbField = fieldMapping.get(field);
-                        if (dbField != null) {
-                            orderBys.add(dbField + " " + (direction != null ? direction : "ASC"));
-                        }
-                    }
-                    if (!orderBys.isEmpty()) {
-                        cypher += " ORDER BY " + String.join(", ", orderBys);
-                    }
-                }
-            }
+            StringBuilder cypherBuilder = new StringBuilder(cypher);
+            handleOrderBy(parameters, fieldMapping, cypherBuilder);
 
             // Append Pagination
-            if (parameters.containsKey("limit") && parameters.containsKey("offset")) {
-                cypher += " SKIP $offset LIMIT $limit";
-            } else if (parameters.containsKey("pagination")) {
-                Map<String, Object> pagination = (Map<String, Object>) parameters.get("pagination");
-                int page = (int) pagination.getOrDefault("page", 0);
-                int pageSize = (int) pagination.getOrDefault("pageSize", 10);
-                parameters.put("offset", page * pageSize);
-                parameters.put("limit", pageSize);
-                cypher += " SKIP $offset LIMIT $limit";
-            }
-
-            // Handle legacy pagination params
-            if (parameters.containsKey("page") && parameters.containsKey("limit") && !parameters.containsKey("offset")) {
-                 int page = (int) parameters.get("page");
-                 int limit = (int) parameters.get("limit");
-                 parameters.put("offset", page * limit);
-            }
-
-            System.out.println("Executing cypher: " + cypher);
+            handlePagination(parameters, cypherBuilder);
+            logger.info(Logger.EVENT_SUCCESS, "Executing cypher: " + cypherBuilder);
             
             // Execute Main Query
-            Result result = session.run(cypher, parameters);
-            List<Map<String, Object>> rows = result.list(this::convertRecord);
-            
-            // If it's a 'mitsFullReport' type query, return wrapped result
-            if (parameters.containsKey("pagination")) {
-                 Map<String, Object> pagination = (Map<String, Object>) parameters.get("pagination");
-                 int page = (int) pagination.getOrDefault("page", 0);
-                 int pageSize = (int) pagination.getOrDefault("pageSize", 10);
-                 
-                 Map<String, Object> response = new HashMap<>();
-                 response.put("rows", rows);
-                 
-                 Map<String, Object> pageInfo = new HashMap<>();
-                 pageInfo.put("page", page);
-                 pageInfo.put("pageSize", pageSize);
-                 // Note: Total items is not calculated in this implementation as requested
-                 pageInfo.put("totalItems", 0); 
-                 pageInfo.put("totalPages", 0);
-                 
-                 response.put("pageInfo", pageInfo);
-                 return response;
-            }
-
-            System.out.println("Query result size: " + rows.size());
-            return rows;
+            Result result = session.run(cypherBuilder.toString(), parameters);
+            rows = result.list(this::convertRecord);
+            logger.info(Logger.EVENT_SUCCESS, "Query result size: " + rows.size());
         } catch (Exception e) {
-            System.out.println("Error executing query: " + e.getMessage());
-            e.printStackTrace();
+            logger.error(Logger.EVENT_FAILURE, "Error executing query: " + e.getMessage(), e);
         }
-        return null;
+        return rows;
     }
 
-    private String buildWhereClause(Map<String, Object> parameters, Map<String, String> fieldMapping) {
+    static void handlePagination(Map<String, Object> parameters, StringBuilder cypherBuilder) {
+        if (parameters.containsKey("limit") && parameters.containsKey("offset")) {
+            cypherBuilder.append( " SKIP $offset LIMIT $limit");
+        }
+    }
+
+    static void handleOrderBy(Map<String, Object> parameters, Map<String, String> fieldMapping, StringBuilder cypherBuilder) {
+        // Append ORDER BY if sort is present
+        if (parameters.containsKey("sort")) {
+            List<Map<String, Object>> sortList = (List<Map<String, Object>>) parameters.get("sort");
+            if (sortList != null && !sortList.isEmpty() && fieldMapping != null) {
+                List<String> orderBys = new ArrayList<>();
+                for (Map<String, Object> sort : sortList) {
+                    String field = (String) sort.get("field");
+                    String direction = (String) sort.get("direction");
+                    String dbField = fieldMapping.get(field);
+                    if (dbField != null) {
+                        orderBys.add(dbField + " " + (direction != null ? direction : "ASC"));
+                    }
+                }
+                if (!orderBys.isEmpty()) {
+                    cypherBuilder.append( " ORDER BY " + String.join(", ", orderBys));
+                }
+            }
+        }
+    }
+
+    String buildWhereClause(Map<String, Object> parameters, Map<String, String> fieldMapping) {
         if (!parameters.containsKey("filters") || fieldMapping == null) {
             return "1=1"; // Default true condition
         }
@@ -184,7 +159,7 @@ public class QueryService {
         return conditions.isEmpty() ? "1=1" : String.join(" AND ", conditions);
     }
 
-    private Map<String, Object> convertRecord(Record record) {
+    Map<String, Object> convertRecord(Record record) {
         Map<String, Object> result = new HashMap<>();
         for (String key : record.keys()) {
             Value value = record.get(key);

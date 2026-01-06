@@ -6,7 +6,10 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class DynamicResolver {
 
     private final QueryService queryService;
@@ -17,7 +20,7 @@ public class DynamicResolver {
 
     @SchemaMapping(typeName = "Query", field = "runQuery")
     public Object runQuery(@Argument String queryName, @Argument Map<String, Object> parameters) {
-        System.out.println("DynamicResolver.runQuery called with queryName: " + queryName + ", parameters: " + parameters);
+        log.debug("DynamicResolver.runQuery called with queryName: {}, parameters: {}", queryName, parameters);
         return queryService.getQueryResult(queryName, parameters);
     }
 }

@@ -14,12 +14,16 @@ import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.GraphQLType;
 import graphql.schema.SelectedField;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ObjectUtils;
 
 @Component
+@Slf4j
 public class SchemaBasedQueryGenerator {
 
     public String generateQuery(DataFetchingEnvironment environment) {
         String fieldName = environment.getField().getName();
+        log.debug("Generating Cypher query for field: {}", fieldName);
         GraphQLSchema schema = environment.getGraphQLSchema();
         
         // Determine if this is a single or list query
@@ -41,7 +45,7 @@ public class SchemaBasedQueryGenerator {
         }
     }
     
-    private String generateListQuery(String typeName, GraphQLObjectType objectType, DataFetchingEnvironment environment) {
+    String generateListQuery(String typeName, GraphQLObjectType objectType, DataFetchingEnvironment environment) {
         StringBuilder cypher = new StringBuilder();
         cypher.append("MATCH (n:").append(typeName).append(")");
         
@@ -62,71 +66,31 @@ public class SchemaBasedQueryGenerator {
         List<String> relationshipFields = getRelationshipFields(environment, objectType);
         
         // Add OPTIONAL MATCH for each relationship
+        prepareOptionalQueryMatch(typeName, objectType, relationshipFields, cypher);
+
+        // Add WITH clause for proper grouping when using collect()
+        prepareQueryWithClauseAndGrouping(typeName, objectType, environment, relationshipFields, cypher);
+        return cypher.toString();
+    }
+
+    void prepareOptionalQueryMatch(String typeName, GraphQLObjectType objectType, List<String> relationshipFields, StringBuilder cypher) {
         for (String relField : relationshipFields) {
             GraphQLFieldDefinition fieldDef = objectType.getFieldDefinition(relField);
             String relatedTypeName = getRelatedTypeName(fieldDef);
             String relationshipName = deriveRelationshipName(typeName, relField, relatedTypeName);
-            
+
             cypher.append(" OPTIONAL MATCH ");
             if (isCollectionField(fieldDef)) {
-                // Incoming relationship (e.g., Shelf -> devices)
                 cypher.append("(").append(relField.toLowerCase()).append(":").append(relatedTypeName)
                       .append(")-[:").append(relationshipName).append("]->(n)");
             } else {
-                // Outgoing relationship (e.g., Device -> shelf)
                 cypher.append("(n)-[:").append(relationshipName).append("]->(")
                       .append(relField.toLowerCase()).append(":").append(relatedTypeName).append(")");
             }
         }
-        
-        // Add WITH clause for proper grouping when using collect()
-        boolean hasCollections = relationshipFields.stream()
-                .anyMatch(relField -> isCollectionField(objectType.getFieldDefinition(relField)));
-        
-        if (hasCollections) {
-            cypher.append(" WITH n");
-            for (String relField : relationshipFields) {
-                GraphQLFieldDefinition fieldDef = objectType.getFieldDefinition(relField);
-                if (isCollectionField(fieldDef)) {
-                    cypher.append(", collect(").append(relField.toLowerCase()).append(") as ").append(relField);
-                } else {
-                    cypher.append(", ").append(relField.toLowerCase()).append(" as ").append(relField);
-                }
-            }
-            cypher.append(" RETURN n{.*");
-            for (String relField : relationshipFields) {
-                cypher.append(", ").append(relField).append(": ").append(relField);
-            }
-            cypher.append("} as ").append(typeName.toLowerCase());
-        } else if (!relationshipFields.isEmpty()) {
-            cypher.append(" RETURN n{.*");
-            for (String relField : relationshipFields) {
-                cypher.append(", ").append(relField).append(": ").append(relField.toLowerCase());
-            }
-            cypher.append("} as ").append(typeName.toLowerCase());
-        } else {
-            // Get all requested fields from GraphQL selection
-            List<String> requestedFields = environment.getSelectionSet().getFields().stream()
-                    .map(SelectedField::getName)
-                    .collect(Collectors.toList());
-            
-            if (requestedFields.isEmpty()) {
-                cypher.append(" RETURN n as ").append(typeName.toLowerCase());
-            } else {
-                cypher.append(" RETURN n{");
-                for (int i = 0; i < requestedFields.size(); i++) {
-                    if (i > 0) cypher.append(", ");
-                    String field = requestedFields.get(i);
-                    cypher.append(field).append(": n.").append(field);
-                }
-                cypher.append("} as ").append(typeName.toLowerCase());
-            }
-        }
-        cypher.append(" LIMIT 10 ");
-        return cypher.toString();
     }
-    
-    private String generateSingleQuery(String typeName, GraphQLObjectType objectType, DataFetchingEnvironment environment) {
+
+    String generateSingleQuery(String typeName, GraphQLObjectType objectType, DataFetchingEnvironment environment) {
         StringBuilder cypher = new StringBuilder();
         cypher.append("MATCH (n:").append(typeName).append(") WHERE n.id = $id");
         
@@ -134,80 +98,77 @@ public class SchemaBasedQueryGenerator {
         List<String> relationshipFields = getRelationshipFields(environment, objectType);
         
         // Add OPTIONAL MATCH for each relationship
-        for (String relField : relationshipFields) {
-            GraphQLFieldDefinition fieldDef = objectType.getFieldDefinition(relField);
-            String relatedTypeName = getRelatedTypeName(fieldDef);
-            String relationshipName = deriveRelationshipName(typeName, relField, relatedTypeName);
-            
-            cypher.append(" OPTIONAL MATCH ");
-            if (isCollectionField(fieldDef)) {
-                // Incoming relationship
-                cypher.append("(").append(relField.toLowerCase()).append(":").append(relatedTypeName)
-                      .append(")-[:").append(relationshipName).append("]->(n)");
-            } else {
-                // Outgoing relationship
-                cypher.append("(n)-[:").append(relationshipName).append("]->(")
-                      .append(relField.toLowerCase()).append(":").append(relatedTypeName).append(")");
-            }
-        }
-        
+        prepareOptionalQueryMatch(typeName, objectType, relationshipFields, cypher);
+
         // Add WITH clause for proper grouping when using collect()
-        boolean hasCollections = relationshipFields.stream()
-                .anyMatch(relField -> isCollectionField(objectType.getFieldDefinition(relField)));
-        
-        if (hasCollections) {
-            cypher.append(" WITH n");
-            for (String relField : relationshipFields) {
-                GraphQLFieldDefinition fieldDef = objectType.getFieldDefinition(relField);
-                if (isCollectionField(fieldDef)) {
-                    cypher.append(", collect(").append(relField.toLowerCase()).append(") as ").append(relField);
-                } else {
-                    cypher.append(", ").append(relField.toLowerCase()).append(" as ").append(relField);
-                }
-            }
-            cypher.append(" RETURN n{.*");
-            for (String relField : relationshipFields) {
-                cypher.append(", ").append(relField).append(": ").append(relField);
-            }
-            cypher.append("} as ").append(typeName.toLowerCase());
-        } else if (!relationshipFields.isEmpty()) {
-            cypher.append(" RETURN n{.*");
-            for (String relField : relationshipFields) {
-                cypher.append(", ").append(relField).append(": ").append(relField.toLowerCase());
-            }
-            cypher.append("} as ").append(typeName.toLowerCase());
-        } else {
-            // Get all requested fields from GraphQL selection
-            List<String> requestedFields = environment.getSelectionSet().getFields().stream()
-                    .map(SelectedField::getName)
-                    .collect(Collectors.toList());
-            
-            if (requestedFields.isEmpty()) {
-                cypher.append(" RETURN n as ").append(typeName.toLowerCase());
-            } else {
-                cypher.append(" RETURN n{");
-                for (int i = 0; i < requestedFields.size(); i++) {
-                    if (i > 0) cypher.append(", ");
-                    String field = requestedFields.get(i);
-                    cypher.append(field).append(": n.").append(field);
-                }
-                cypher.append("} as ").append(typeName.toLowerCase());
-            }
-        }
-        cypher.append(" LIMIT 10 ");
+        prepareQueryWithClauseAndGrouping(typeName, objectType, environment, relationshipFields, cypher);
         return cypher.toString();
     }
-    
-    private String getTypeNameFromField(String fieldName, boolean isList) {
+
+    void prepareQueryWithClauseAndGrouping(String typeName, GraphQLObjectType objectType, DataFetchingEnvironment environment, List<String> relationshipFields, StringBuilder cypher) {
+        boolean hasCollections = relationshipFields.stream()
+                .anyMatch(relField -> isCollectionField(objectType.getFieldDefinition(relField)));
+
+        if (hasCollections) {
+            prepareForCollection(typeName, objectType, relationshipFields, cypher);
+        } else if (!relationshipFields.isEmpty()) {
+            prepareRelationshipFields(typeName, relationshipFields, cypher);
+        } else {
+            // Get all requested fields from GraphQL selection
+            prepareForNonCollectionAndRelationshipFields(typeName, environment, cypher);
+        }
+        cypher.append(" LIMIT 10 ");
+    }
+
+    void prepareForNonCollectionAndRelationshipFields(String typeName, DataFetchingEnvironment environment, StringBuilder cypher) {
+        List<String> requestedFields = environment.getSelectionSet().getFields().stream()
+                .map(SelectedField::getName)
+                .toList();
+
+        if (requestedFields.isEmpty()) {
+            cypher.append(" RETURN n as ").append(typeName.toLowerCase());
+        } else {
+            cypher.append(" RETURN n{");
+            for (int i = 0; i < requestedFields.size(); i++) {
+                if (i > 0) cypher.append(", ");
+                String field = requestedFields.get(i);
+                cypher.append(field).append(": n.").append(field);
+            }
+            cypher.append("} as ").append(typeName.toLowerCase());
+        }
+    }
+
+    // Package-private for testing
+    void prepareRelationshipFields(String typeName, List<String> relationshipFields, StringBuilder cypher) {
+        cypher.append(" RETURN n{.*");
+        for (String relField : relationshipFields) {
+            cypher.append(", ").append(relField).append(": ").append(relField.toLowerCase());
+        }
+        cypher.append("} as ").append(typeName.toLowerCase());
+    }
+
+    void prepareForCollection(String typeName, GraphQLObjectType objectType, List<String> relationshipFields, StringBuilder cypher) {
+        cypher.append(" WITH n");
+        for (String relField : relationshipFields) {
+            GraphQLFieldDefinition fieldDef = objectType.getFieldDefinition(relField);
+            if (isCollectionField(fieldDef)) {
+                cypher.append(", collect(").append(relField.toLowerCase()).append(") as ").append(relField);
+            } else {
+                cypher.append(", ").append(relField.toLowerCase()).append(" as ").append(relField);
+            }
+        }
+        cypher.append(" RETURN n{.*");
+        for (String relField : relationshipFields) {
+            cypher.append(", ").append(relField).append(": ").append(relField);
+        }
+        cypher.append("} as ").append(typeName.toLowerCase());
+    }
+
+    String getTypeNameFromField(String fieldName, boolean isList) {
         if (isList) {
             // Handle pluralization properly
             String singular;
-            if (fieldName.equals("shelves")) {
-                singular = "shelf";
-            } else if (fieldName.endsWith("ies")) {
-                // cities -> city
-                singular = fieldName.substring(0, fieldName.length() - 3) + "y";
-            } else if (fieldName.endsWith("s")) {
+            if (fieldName.endsWith("s")) {
                 // devices -> device
                 singular = fieldName.substring(0, fieldName.length() - 1);
             } else {
@@ -219,8 +180,8 @@ public class SchemaBasedQueryGenerator {
             return capitalize(fieldName);
         }
     }
-    
-    private List<String> getRelationshipFields(DataFetchingEnvironment environment, GraphQLObjectType objectType) {
+
+    List<String> getRelationshipFields(DataFetchingEnvironment environment, GraphQLObjectType objectType) {
         return environment.getSelectionSet().getFields().stream()
                 .map(SelectedField::getName)
                 .filter(fieldName -> !isPrimitiveField(fieldName))
@@ -274,7 +235,7 @@ public class SchemaBasedQueryGenerator {
     }
     
     private String capitalize(String str) {
-        if (str == null || str.isEmpty()) return str;
+        if (ObjectUtils.isEmpty(str)) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 }

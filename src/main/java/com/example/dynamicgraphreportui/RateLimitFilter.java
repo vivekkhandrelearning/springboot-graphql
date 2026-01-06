@@ -14,7 +14,10 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class RateLimitFilter implements Filter {
 
     private final RateLimitingService rateLimitingService;
@@ -38,9 +41,11 @@ public class RateLimitFilter implements Filter {
                 ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
 
                 if (probe.isConsumed()) {
+                    log.debug("Request allowed for IP: {}. Remaining tokens: {}", ip, probe.getRemainingTokens());
                     httpResponse.setHeader("X-Rate-Limit-Remaining", String.valueOf(probe.getRemainingTokens()));
                     chain.doFilter(request, response);
                 } else {
+                    log.warn("Rate limit exceeded for IP: {}. Retry after: {} seconds", ip, probe.getNanosToWaitForRefill() / 1_000_000_000);
                     httpResponse.setStatus(429);
                     httpResponse.setHeader("X-Rate-Limit-Retry-After-Seconds", String.valueOf(probe.getNanosToWaitForRefill() / 1_000_000_000));
                     httpResponse.setContentType("application/json");

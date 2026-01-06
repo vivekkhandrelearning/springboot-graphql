@@ -17,7 +17,10 @@ import graphql.scalars.ExtendedScalars;
 import graphql.schema.DataFetcher;
 import graphql.schema.GraphQLList;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
+@Slf4j
 public class GraphQLConfig {
 
     private final SchemaBasedQueryGenerator schemaBasedQueryGenerator;
@@ -57,7 +60,7 @@ public class GraphQLConfig {
         };
     }
 
-    private DataFetcher<Object> createDynamicDataFetcher(String queryName) {
+    DataFetcher<Object> createDynamicDataFetcher(String queryName) {
         return environment -> {
             java.util.Map<String, Object> args = new java.util.HashMap<>(environment.getArguments());
             
@@ -78,10 +81,10 @@ public class GraphQLConfig {
         };
     }
 
-    private DataFetcher<Object> genericDataFetcher() {
+    DataFetcher<Object> genericDataFetcher() {
         return environment -> {
             String cypher = schemaBasedQueryGenerator.generateQuery(environment);
-            System.out.println("Generic DataFetcher Cypher: " + cypher);
+            log.debug("Generic DataFetcher Cypher: {}", cypher);
             
             Map<String, Object> args = environment.getArguments();
             List<Map<String, Object>> results = executeQuery(cypher, args);
@@ -100,11 +103,11 @@ public class GraphQLConfig {
         };
     }
 
-    private DataFetcher<Object> runQueryDataFetcher() {
+    DataFetcher<Object> runQueryDataFetcher() {
         return environment -> {
             String queryName = environment.getArgument("queryName");
             Map<String, Object> parameters = environment.getArgument("parameters");
-            System.out.println("GraphQLConfig.runQueryDataFetcher called with queryName: " + queryName + ", parameters: " + parameters);
+            log.debug("GraphQLConfig.runQueryDataFetcher called with queryName: {}, parameters: {}", queryName, parameters);
             return queryService.getQueryResult(queryName, parameters);
         };
     }
@@ -138,7 +141,7 @@ public class GraphQLConfig {
      * @param propertyMap Parameters for the query, if any.
      * @return List of records resulting from the query.
      */
-    private Result executeTransaction(TransactionContext tx, String query, Map<String, Object> propertyMap) {
+    public Result executeTransaction(TransactionContext tx, String query, Map<String, Object> propertyMap) {
         return tx.run(query, propertyMap);
     }
 
