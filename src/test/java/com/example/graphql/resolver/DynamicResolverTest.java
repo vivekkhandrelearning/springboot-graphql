@@ -1,11 +1,11 @@
-package com.example.dynamicgraphreportui.resolver;
+package com.example.graphql.resolver;
 
 import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.example.dynamicgraphreportui.service.QueryService;
+import com.example.graphql.service.QueryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

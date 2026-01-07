@@ -1,4 +1,4 @@
-package com.example.dynamicgraphreportui.service;
+package com.example.graphql.service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.example.dynamicgraphreportui.exceptions.GraphQlApplicationException;
+import com.example.graphql.exceptions.GraphQlApplicationException;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
+import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,10 +1,10 @@
-package com.example.dynamicgraphreportui.config;
+package com.example.graphql.config;
 
 import java.util.List;
 import java.util.Map;
 
-import com.example.dynamicgraphreportui.service.SchemaBasedQueryGenerator;
-import com.example.dynamicgraphreportui.service.QueryService;
+import com.example.graphql.service.SchemaBasedQueryGenerator;
+import com.example.graphql.service.QueryService;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
-import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
+import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
 
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.DataFetcher;

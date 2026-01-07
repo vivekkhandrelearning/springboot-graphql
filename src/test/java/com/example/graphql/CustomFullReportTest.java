@@ -1,4 +1,4 @@
-package com.example.dynamicgraphreportui;
+package com.example.graphql;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,9 @@ class CustomFullReportTest {
                     filters: [
                         { field: "manufacturer_type", op: EQ, values: ["SomeType"] }
                     ],
-                    pagination: { page: 0, pageSize: 10 }
-                ) {
-                    rows
-                    pageInfo {
-                        page
-                        pageSize
-                    }
-                }
+                    limit: 10,
+                    offset: 0
+                ) 
             }
             """;
 

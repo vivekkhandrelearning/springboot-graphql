@@ -1,4 +1,4 @@
-package com.example.dynamicgraphreportui.service;
+package com.example.graphql.service;
 
 import java.util.Collections;
 

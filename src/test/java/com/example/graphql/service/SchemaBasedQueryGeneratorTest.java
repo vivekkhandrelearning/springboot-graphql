@@ -1,11 +1,11 @@
-package com.example.dynamicgraphreportui.service;
+package com.example.graphql.service;
 
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.example.dynamicgraphreportui.exceptions.GraphQlApplicationException;
+import com.example.graphql.exceptions.GraphQlApplicationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

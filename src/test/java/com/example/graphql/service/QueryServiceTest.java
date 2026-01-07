@@ -1,4 +1,4 @@
-package com.example.dynamicgraphreportui.service;
+package com.example.graphql.service;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,6 +10,8 @@ import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.example.graphql.exceptions.GraphQlApplicationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,8 +28,7 @@ import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Value;
 
-import com.example.dynamicgraphreportui.exceptions.GraphQlApplicationException;
-import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
+import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
 
 @ExtendWith(MockitoExtension.class)
 class QueryServiceTest {

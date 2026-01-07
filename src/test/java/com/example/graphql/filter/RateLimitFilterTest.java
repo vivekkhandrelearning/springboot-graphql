@@ -1,8 +1,8 @@
-package com.example.dynamicgraphreportui.filter;
+package com.example.graphql.filter;
 
 import java.io.PrintWriter;
 
-import com.example.dynamicgraphreportui.service.RateLimitingService;
+import com.example.graphql.service.RateLimitingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

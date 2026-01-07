@@ -1,4 +1,4 @@
-package com.example.dynamicgraphreportui.service;
+package com.example.graphql.service;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
