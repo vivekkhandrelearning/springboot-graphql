@@ -4,17 +4,24 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
-import graphql.schema.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import graphql.Scalars;
 import graphql.language.Field;
+import graphql.schema.DataFetchingEnvironment;
+import graphql.schema.DataFetchingFieldSelectionSet;
+import graphql.schema.GraphQLFieldDefinition;
+import graphql.schema.GraphQLObjectType;
+import graphql.schema.GraphQLSchema;
+import graphql.schema.GraphQLType;
+import graphql.schema.SelectedField;
 
 @ExtendWith(MockitoExtension.class)
 class SchemaBasedQueryGeneratorTest {
@@ -200,6 +207,6 @@ class SchemaBasedQueryGeneratorTest {
         when(schema.getType("Person")).thenReturn(graphQLType);
         Field astField = new Field("person");
         when(environment.getField()).thenReturn(astField);
-        assertThrows(RuntimeException.class, () -> generator.generateQuery(environment));
+        assertThrows(GraphQlApplicationException.class, () -> generator.generateQuery(environment));
     }
 }

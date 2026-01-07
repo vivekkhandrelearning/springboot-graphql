@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.GraphQLFieldDefinition;
@@ -15,7 +16,6 @@ import graphql.schema.GraphQLSchema;
 import graphql.schema.GraphQLType;
 import graphql.schema.SelectedField;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.ObjectUtils;
 
 @Component
 @Slf4j
@@ -33,7 +33,7 @@ public class SchemaBasedQueryGenerator {
         // Get the GraphQL type definition
         GraphQLType type = schema.getType(typeName);
         if (!(type instanceof GraphQLObjectType)) {
-            throw new RuntimeException("Type " + typeName + " not found in schema");
+            throw new GraphQlApplicationException("SCHEMA_GENERATION_ERROR", "Type " + typeName + " not found in schema");
         }
         
         GraphQLObjectType objectType = (GraphQLObjectType) type;
@@ -138,7 +138,6 @@ public class SchemaBasedQueryGenerator {
         }
     }
 
-    // Package-private for testing
     void prepareRelationshipFields(String typeName, List<String> relationshipFields, StringBuilder cypher) {
         cypher.append(" RETURN n{.*");
         for (String relField : relationshipFields) {

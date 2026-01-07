@@ -11,12 +11,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
-import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
+import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
 
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.DataFetcher;
 import graphql.schema.GraphQLList;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Configuration
@@ -64,16 +63,13 @@ public class GraphQLConfig {
         return environment -> {
             java.util.Map<String, Object> args = new java.util.HashMap<>(environment.getArguments());
             
-            // Apply generic pagination logic if applicable
-            if (args.containsKey("page") || args.containsKey("limit")) {
-                int limit = (int) args.getOrDefault("limit", 10);
-                int page = (int) args.getOrDefault("page", 0);
-                int offset = page * limit;
-                args.put("limit", limit);
-                args.put("offset", offset);
+            // Handle offset/limit pagination
+            // If offset is missing but limit is present, default offset to 0
+            if (args.containsKey("limit")) {
+                args.putIfAbsent("offset", 0);
             }
             
-            // Ensure nulls for known filter parameters if missing (optional, but safe for getAntennaReport)
+            // Ensure nulls for known filter parameters if missing
             args.putIfAbsent("id", null);
             args.putIfAbsent("npiId", null);
 

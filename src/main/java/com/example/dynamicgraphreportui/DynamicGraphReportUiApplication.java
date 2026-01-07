@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.example", "com.abcde.tni.commonutils.neo4j"})
+@ComponentScan(basePackages = {"com.example", "com.telstra.tni.commonutils.neo4j"})
 public class DynamicGraphReportUiApplication {
 
 	public static void main(String[] args) {

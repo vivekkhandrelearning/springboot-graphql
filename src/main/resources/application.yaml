@@ -30,7 +30,9 @@ logging:
   file:
     name: logs/dynamic-graph-report-ui.log
   level:
-    com.telstra.tni: debug
+    com:
+      example:
+        dynamicgraphreportui: debug
     org:
       springframework:
         data:

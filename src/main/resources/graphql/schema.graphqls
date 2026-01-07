@@ -1796,7 +1796,7 @@ type Query {
   bngFsgService(id: ID!): BngFsgService
   shelf_Definitions(relativeName: String, resourceStatus: Int, name: String, shelfNumber: Int, id: String, _version: String): [Shelf_Definition]
   shelf_Definition(id: ID!): Shelf_Definition
-  getAntennaReport(id: ID, npiId: Int, limit: Int, page: Int): [JSON]
+  getAntennaReport(id: ID, npiId: Int, limit: Int, offset: Int): [JSON]
   getAntennaDetails: [JSON]
   getBatteryDetails: [JSON]
   getCardDetails: [JSON]

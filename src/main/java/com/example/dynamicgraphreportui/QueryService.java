@@ -15,9 +15,12 @@ import org.neo4j.driver.types.Node;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
+import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -46,11 +49,21 @@ public class QueryService {
         try (Session session = databaseDriver.sessionFor()) {
             Map<String, Object> queryDefinition = queries.get(queryName);
             String cypher = (String) queryDefinition.get("cypher");
-            Map<String, String> fieldMapping = (Map<String, String>) queryDefinition.get("fieldMapping");
-
-            // Build WHERE clause from filters
-            String whereClause = buildWhereClause(parameters, fieldMapping);
-            cypher = cypher.replace("{{WHERE_CLAUSE}}", whereClause);
+            Map<String, String> fieldMappings = new HashMap<>();
+            
+            // Handle field mappings and WHERE clause placeholders
+            for (int cnt = 1; cnt < 5; cnt++) {
+                Map<String, String> fieldMapping = (Map<String, String>) queryDefinition.get("fieldMapping" + cnt);
+                if (!ObjectUtils.isEmpty(fieldMapping)) {
+                    // Build WHERE clause from filters
+                    String whereClause = buildWhereClause(parameters, fieldMapping);
+                    cypher = cypher.replace("{{WHERE_CLAUSE_" + cnt + "}}", whereClause);
+                    fieldMappings.putAll(fieldMapping);
+                } else {
+                    // Replace unused placeholders with empty string
+                    cypher = cypher.replace("{{WHERE_CLAUSE_" + cnt + "}}", "");
+                }
+            }
 
             // Handle dynamic replacements (e.g., {{label}})
             for (Map.Entry<String, Object> entry : parameters.entrySet()) {
@@ -64,30 +77,26 @@ public class QueryService {
                     }
                 }
             }
-            StringBuilder cypherBuilder = new StringBuilder(cypher);
-            handleOrderBy(parameters, fieldMapping, cypherBuilder);
-
+            parameters.putIfAbsent("offset", 0);
+            parameters.putIfAbsent("limit", 1000);
+            cypher = cypher.replace("{{SKIP_LIMIT}}", " SKIP $offset LIMIT $limit");
+            String orderBy = handleOrderBy(parameters, fieldMappings);
+            cypher = cypher + orderBy;
             // Append Pagination
-            handlePagination(parameters, cypherBuilder);
-            logger.info(Logger.EVENT_SUCCESS, "Executing cypher: " + cypherBuilder);
-            
+            logger.debug(Logger.EVENT_UNSPECIFIED, "Executing cypher: " + cypher);
             // Execute Main Query
-            Result result = session.run(cypherBuilder.toString(), parameters);
+            Result result = session.run(cypher, parameters);
             rows = result.list(this::convertRecord);
-            logger.info(Logger.EVENT_SUCCESS, "Query result size: " + rows.size());
+            logger.debug(Logger.EVENT_UNSPECIFIED, "Query result size: " + rows.size());
         } catch (Exception e) {
             logger.error(Logger.EVENT_FAILURE, "Error executing query: " + e.getMessage(), e);
+            throw new GraphQlApplicationException("QUERY_EXECUTION_ERROR", "Error executing query: " + e.getMessage(), e);
         }
         return rows;
     }
 
-    static void handlePagination(Map<String, Object> parameters, StringBuilder cypherBuilder) {
-        if (parameters.containsKey("limit") && parameters.containsKey("offset")) {
-            cypherBuilder.append( " SKIP $offset LIMIT $limit");
-        }
-    }
-
-    static void handleOrderBy(Map<String, Object> parameters, Map<String, String> fieldMapping, StringBuilder cypherBuilder) {
+    static String handleOrderBy(Map<String, Object> parameters, Map<String, String> fieldMapping) {
+       String orderBy = "";
         // Append ORDER BY if sort is present
         if (parameters.containsKey("sort")) {
             List<Map<String, Object>> sortList = (List<Map<String, Object>>) parameters.get("sort");
@@ -102,61 +111,54 @@ public class QueryService {
                     }
                 }
                 if (!orderBys.isEmpty()) {
-                    cypherBuilder.append( " ORDER BY " + String.join(", ", orderBys));
+                    orderBy = " ORDER BY " + String.join(", ", orderBys);
                 }
             }
         }
+        return  orderBy;
     }
 
     String buildWhereClause(Map<String, Object> parameters, Map<String, String> fieldMapping) {
-        if (!parameters.containsKey("filters") || fieldMapping == null) {
-            return "1=1"; // Default true condition
-        }
-
         List<Map<String, Object>> filters = (List<Map<String, Object>>) parameters.get("filters");
-        if (filters == null || filters.isEmpty()) {
-            return "1=1";
-        }
-
         List<String> conditions = new ArrayList<>();
         int paramCounter = 0;
+        if (!ObjectUtils.isEmpty(filters)) {
+            for (Map<String, Object> filter : filters) {
+                String field = (String) filter.get("field");
+                String op = (String) filter.get("op");
+                List<String> values = (List<String>) filter.get("values");
+                String dbField = fieldMapping.get(field);
 
-        for (Map<String, Object> filter : filters) {
-            String field = (String) filter.get("field");
-            String op = (String) filter.get("op");
-            List<String> values = (List<String>) filter.get("values");
-            String dbField = fieldMapping.get(field);
+                if (dbField == null) continue;
 
-            if (dbField == null) continue;
+                String paramName = "filterParam" + paramCounter++;
+                parameters.put(paramName, values);
 
-            String paramName = "filterParam" + paramCounter++;
-            parameters.put(paramName, values);
-
-            switch (op) {
-                case "EQ":
-                    if (values.size() == 1) {
-                        parameters.put(paramName, values.get(0));
-                        conditions.add(dbField + " = $" + paramName);
-                    } else {
+                switch (op) {
+                    case "EQ":
+                        if (values.size() == 1) {
+                            parameters.put(paramName, values.get(0));
+                            conditions.add(dbField + " = $" + paramName);
+                        } else {
+                            conditions.add(dbField + " IN $" + paramName);
+                        }
+                        break;
+                    case "IN":
                         conditions.add(dbField + " IN $" + paramName);
-                    }
-                    break;
-                case "IN":
-                    conditions.add(dbField + " IN $" + paramName);
-                    break;
-                case "CONTAINS":
-                     if (values.size() == 1) {
-                        parameters.put(paramName, values.get(0));
-                        conditions.add(dbField + " CONTAINS $" + paramName);
-                    }
-                    break;
-                // Add other ops as needed
-                default:
-                    break;
+                        break;
+                    case "CONTAINS":
+                        if (values.size() == 1) {
+                            parameters.put(paramName, values.get(0));
+                            conditions.add(dbField + " CONTAINS $" + paramName);
+                        }
+                        break;
+                    // Add other ops as needed
+                    default:
+                        break;
+                }
             }
         }
-
-        return conditions.isEmpty() ? "1=1" : String.join(" AND ", conditions);
+        return conditions.isEmpty() ? "" : " WHERE " + String.join(" AND ", conditions);
     }
 
     Map<String, Object> convertRecord(Record record) {
