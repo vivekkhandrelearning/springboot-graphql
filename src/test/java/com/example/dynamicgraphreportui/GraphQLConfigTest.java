@@ -11,7 +11,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
+import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
 
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;

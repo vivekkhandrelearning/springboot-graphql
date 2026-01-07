@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
+import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
 
 import lombok.extern.slf4j.Slf4j;
 
