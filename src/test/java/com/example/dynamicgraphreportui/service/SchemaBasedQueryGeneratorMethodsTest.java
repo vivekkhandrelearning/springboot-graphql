@@ -1,8 +1,9 @@
-package com.example.dynamicgraphreportui;
+package com.example.dynamicgraphreportui.service;
 
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 class SchemaBasedQueryGeneratorMethodsTest {

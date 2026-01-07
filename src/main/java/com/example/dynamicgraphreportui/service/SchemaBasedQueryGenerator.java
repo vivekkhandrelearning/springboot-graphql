@@ -1,9 +1,10 @@
-package com.example.dynamicgraphreportui;
+package com.example.dynamicgraphreportui.service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.example.dynamicgraphreportui.exceptions.GraphQlApplicationException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 

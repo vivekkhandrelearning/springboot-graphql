@@ -1,4 +1,4 @@
-package com.example.dynamicgraphreportui;
+package com.example.dynamicgraphreportui.service;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,6 +26,7 @@ import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Value;
 
+import com.example.dynamicgraphreportui.exceptions.GraphQlApplicationException;
 import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
 
 @ExtendWith(MockitoExtension.class)

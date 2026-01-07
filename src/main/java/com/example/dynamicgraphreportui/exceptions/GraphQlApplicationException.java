@@ -1,4 +1,4 @@
-package com.example.dynamicgraphreportui;
+package com.example.dynamicgraphreportui.exceptions;
 
 public class GraphQlApplicationException extends RuntimeException {
 

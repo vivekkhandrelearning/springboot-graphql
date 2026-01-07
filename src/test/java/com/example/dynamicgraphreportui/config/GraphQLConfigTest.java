@@ -1,4 +1,4 @@
-package com.example.dynamicgraphreportui;
+package com.example.dynamicgraphreportui.config;
 
 import java.util.Collections;
 import java.util.Map;
@@ -11,6 +11,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.example.dynamicgraphreportui.service.QueryService;
+import com.example.dynamicgraphreportui.service.SchemaBasedQueryGenerator;
 import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
 
 import graphql.schema.DataFetcher;

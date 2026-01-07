@@ -1,7 +1,8 @@
-package com.example.dynamicgraphreportui;
+package com.example.dynamicgraphreportui.filter;
 
 import java.io.IOException;
 
+import com.example.dynamicgraphreportui.service.RateLimitingService;
 import org.springframework.stereotype.Component;
 
 import io.github.bucket4j.Bucket;

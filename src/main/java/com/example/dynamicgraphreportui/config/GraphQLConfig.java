@@ -1,8 +1,10 @@
-package com.example.dynamicgraphreportui;
+package com.example.dynamicgraphreportui.config;
 
 import java.util.List;
 import java.util.Map;
 
+import com.example.dynamicgraphreportui.service.SchemaBasedQueryGenerator;
+import com.example.dynamicgraphreportui.service.QueryService;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;

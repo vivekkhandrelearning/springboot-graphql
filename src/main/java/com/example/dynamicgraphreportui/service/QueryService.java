@@ -1,4 +1,4 @@
-package com.example.dynamicgraphreportui;
+package com.example.dynamicgraphreportui.service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.example.dynamicgraphreportui.exceptions.GraphQlApplicationException;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;

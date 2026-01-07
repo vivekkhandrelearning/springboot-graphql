@@ -1,7 +1,8 @@
-package com.example.dynamicgraphreportui;
+package com.example.dynamicgraphreportui.resolver;
 
 import java.util.Map;
 
+import com.example.dynamicgraphreportui.service.QueryService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Component;
