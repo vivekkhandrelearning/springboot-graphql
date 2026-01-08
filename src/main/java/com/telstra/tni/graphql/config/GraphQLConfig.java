@@ -3,8 +3,6 @@ package com.telstra.tni.graphql.config;
 import java.util.List;
 import java.util.Map;
 
-import com.telstra.tni.graphql.service.SchemaBasedQueryGenerator;
-import com.telstra.tni.graphql.service.QueryService;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
@@ -14,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
 import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
+import com.telstra.tni.graphql.service.QueryService;
+import com.telstra.tni.graphql.service.SchemaBasedQueryGenerator;
 
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.DataFetcher;
@@ -57,7 +57,14 @@ public class GraphQLConfig {
             // Map type to query name
             String queryName = "get" + type + "Report"; 
             
-            return queryService.getQueryResult(queryName, args);
+            // Apply default limit/offset if missing
+            if (args.containsKey("limit")) {
+                args.putIfAbsent("offset", 0);
+            }
+            
+            Object result = queryService.getQueryResult(queryName, args);
+            // Wrap list in a map to match ReportResult schema
+            return Map.of("rows", result);
         };
     }
 
