@@ -1,4 +1,4 @@
-package com.example.graphql.service;
+package com.telstra.tni.graphql.service;
 
 import java.util.Collections;
 
