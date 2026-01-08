@@ -1,10 +1,10 @@
-package com.telstra.tni.graphql.config;
+package com.example.graphql.config;
 
 import java.util.List;
 import java.util.Map;
 
-import com.telstra.tni.graphql.service.SchemaBasedQueryGenerator;
-import com.telstra.tni.graphql.service.QueryService;
+import com.example.graphql.service.SchemaBasedQueryGenerator;
+import com.example.graphql.service.QueryService;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;

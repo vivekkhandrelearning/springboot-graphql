@@ -1,4 +1,4 @@
-package com.telstra.tni.graphql.config;
+package com.example.graphql.config;
 
 import java.util.Collections;
 import java.util.Map;
@@ -11,8 +11,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.telstra.tni.graphql.service.QueryService;
-import com.telstra.tni.graphql.service.SchemaBasedQueryGenerator;
+import com.example.graphql.service.QueryService;
+import com.example.graphql.service.SchemaBasedQueryGenerator;
 import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
 
 import graphql.schema.DataFetcher;
