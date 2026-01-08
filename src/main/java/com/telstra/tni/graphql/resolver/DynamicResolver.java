@@ -1,8 +1,8 @@
-package com.example.graphql.resolver;
+package com.telstra.tni.graphql.resolver;
 
 import java.util.Map;
 
-import com.example.graphql.service.QueryService;
+import com.telstra.tni.graphql.service.QueryService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Component;

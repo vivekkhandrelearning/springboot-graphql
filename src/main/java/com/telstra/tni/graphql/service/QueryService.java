@@ -1,4 +1,4 @@
-package com.example.graphql.service;
+package com.telstra.tni.graphql.service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.example.graphql.exceptions.GraphQlApplicationException;
+import com.telstra.tni.graphql.exceptions.GraphQlApplicationException;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;

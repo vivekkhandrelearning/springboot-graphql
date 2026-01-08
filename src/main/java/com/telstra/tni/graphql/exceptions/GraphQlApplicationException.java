@@ -1,4 +1,4 @@
-package com.example.graphql.exceptions;
+package com.telstra.tni.graphql.exceptions;
 
 public class GraphQlApplicationException extends RuntimeException {
 

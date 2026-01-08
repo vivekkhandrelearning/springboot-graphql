@@ -31,8 +31,9 @@ logging:
     name: logs/dynamic-graph-report-ui.log
   level:
     com:
-      example:
-        dynamicgraphreportui: debug
+      telstra:
+        tni:
+          graphql: debug
     org:
       springframework:
         data:

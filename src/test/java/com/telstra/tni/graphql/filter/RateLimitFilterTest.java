@@ -1,8 +1,8 @@
-package com.example.graphql.filter;
+package com.telstra.tni.graphql.filter;
 
 import java.io.PrintWriter;
 
-import com.example.graphql.service.RateLimitingService;
+import com.telstra.tni.graphql.service.RateLimitingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

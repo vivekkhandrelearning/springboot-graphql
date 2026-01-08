@@ -1,11 +1,11 @@
-package com.example.graphql.service;
+package com.telstra.tni.graphql.service;
 
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.example.graphql.exceptions.GraphQlApplicationException;
+import com.telstra.tni.graphql.exceptions.GraphQlApplicationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
