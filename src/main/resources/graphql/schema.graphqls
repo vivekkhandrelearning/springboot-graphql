@@ -1408,7 +1408,7 @@ type Query {
     sort: [SortInput], 
     limit: Int, 
     offset: Int
-  ): [JSON]
+  ): ReportResult
   verticals(npiId: Int, resourceStatus: Int, usageState: Int, comments: String, administrativeState: Int, name: String, _type: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Vertical]
   vertical(id: ID!): Vertical
   rbsFunctionPropertys(id: ID): [RbsFunctionProperty]
