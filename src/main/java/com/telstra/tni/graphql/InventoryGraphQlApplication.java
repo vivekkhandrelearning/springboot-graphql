@@ -6,10 +6,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.telstra.tni.graphql", "com.telstra.tni.commonutils.neo4j"})
-public class DynamicGraphReportUiApplication {
+public class InventoryGraphQlApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DynamicGraphReportUiApplication.class, args);
+		SpringApplication.run(InventoryGraphQlApplication.class, args);
 	}
 
 }
