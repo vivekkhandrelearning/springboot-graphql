@@ -1,4 +1,4 @@
-package com.telstra.tni.graphql.service;
+package com.example.graphql.service;
 
 import java.time.Duration;
 

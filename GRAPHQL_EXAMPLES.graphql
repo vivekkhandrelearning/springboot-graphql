@@ -1,0 +1,125 @@
+# === Custom Reports ===
+
+# Basic Query
+# Fetches antenna report with pagination
+query CustomFullReportBasic {
+  customFullReport(
+    type: "Antenna",
+    limit: 10,
+    offset: 0
+  ) {
+    rows
+  }
+}
+
+# Complex Filters & Sorting
+# Fetches antenna report with multiple filters and sorting
+query CustomFullReportComplex {
+  customFullReport(
+    type: "Antenna",
+    filters: [
+      { field: "manufacturer_type", op: CONTAINS, values: ["Type"] },
+      { field: "resource_status", op: IN, values: ["INSTALLED", "PLANNED"] }
+    ],
+    sort: [
+      { field: "manufacturer_type", direction: DESC }
+    ],
+    limit: 20,
+    offset: 0
+  ) {
+    rows
+  }
+}
+
+# String Filter (EQ)
+query StringFilter {
+  customFullReport(
+    type: "Antenna",
+    filters: [
+      { field: "manufacturer_type", op: EQ, values: ["SomeType"] }
+    ],
+    limit: 10,
+    offset: 0
+  ) {
+    rows
+  }
+}
+
+# Number Filter (GT)
+query NumberFilter {
+  customFullReport(
+    type: "Antenna",
+    filters: [
+      { field: "npi_id", op: GT, values: ["1000"] }
+    ],
+    limit: 10,
+    offset: 0
+  ) {
+    rows
+  }
+}
+
+# DateTime Filter (LT)
+query DateTimeFilter {
+  customFullReport(
+    type: "Antenna",
+    filters: [
+      { field: "date_manufactured", op: LT, values: ["2023-01-01T00:00:00Z"] }
+    ],
+    limit: 10,
+    offset: 0
+  ) {
+    rows
+  }
+}
+
+
+# === Generic Queries ===
+
+# Run Query (Raw Cypher via Config)
+# Executes a named query defined in queries.yml
+query RunQuery {
+  runQuery(
+    queryName: "getAntennaDetails",
+    parameters: {}
+  )
+}
+
+# Get Antenna Details (Dynamic Fetcher)
+# Direct field access for a named query
+query GetAntennaDetails {
+  getAntennaDetails
+}
+
+
+# === Entity Queries (Schema Generated) ===
+
+# List Antennas
+# Standard entity list query with filters
+query ListAntennas {
+  antennas(
+    resourceStatus: 1
+  ) {
+    id
+    name
+    serialNumber
+    antenna_has_item_Item {
+      id
+      name
+    }
+  }
+}
+
+# Get Single Vertical
+# Fetch a single entity by ID
+query GetVertical {
+  vertical(id: "12345") {
+    id
+    name
+    resourceStatus
+    vertical_has_terminalblock_TerminalBlock {
+      id
+      name
+    }
+  }
+}

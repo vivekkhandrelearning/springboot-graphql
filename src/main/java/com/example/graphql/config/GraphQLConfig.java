@@ -1,4 +1,4 @@
-package com.telstra.tni.graphql.config;
+package com.example.graphql.config;
 
 import java.util.List;
 import java.util.Map;
@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
-import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
-import com.telstra.tni.graphql.service.QueryService;
-import com.telstra.tni.graphql.service.SchemaBasedQueryGenerator;
+import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
+import com.example.graphql.service.QueryService;
+import com.example.graphql.service.SchemaBasedQueryGenerator;
 
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.DataFetcher;

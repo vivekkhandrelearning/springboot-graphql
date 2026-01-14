@@ -1375,7 +1375,7 @@ enum SortDirection { ASC DESC }
 input FilterInput {
   field: String!
   op: Op!
-  values: [String]
+  values: [JSON]
 }
 
 input SortInput {
@@ -1489,8 +1489,8 @@ type Query {
   shelf_Type(id: ID!): Shelf_Type
   networkFunctionPropertys(id: ID): [NetworkFunctionProperty]
   networkFunctionProperty(id: ID!): NetworkFunctionProperty
-  telstraWholesaleEthernetCarrierGradeServices(id: ID): [TelstraWholesaleEthernetCarrierGradeService]
-  telstraWholesaleEthernetCarrierGradeService(id: ID!): TelstraWholesaleEthernetCarrierGradeService
+  abcdeWholesaleEthernetCarrierGradeServices(id: ID): [TelstraWholesaleEthernetCarrierGradeService]
+  abcdeWholesaleEthernetCarrierGradeService(id: ID!): TelstraWholesaleEthernetCarrierGradeService
   advaz4806FunctionPropertys(id: ID): [Advaz4806FunctionProperty]
   advaz4806FunctionProperty(id: ID!): Advaz4806FunctionProperty
   subStructures(subStructureType: Int, name: String, id: String, _version: String): [SubStructure]
@@ -1501,8 +1501,8 @@ type Query {
   place(id: ID!): Place
   tidRetailHspServiceDeliveryPointServices(id: ID): [TidRetailHspServiceDeliveryPointService]
   tidRetailHspServiceDeliveryPointService(id: ID!): TidRetailHspServiceDeliveryPointService
-  telstraConsumerNbnServices(id: ID): [TelstraConsumerNbnService]
-  telstraConsumerNbnService(id: ID!): TelstraConsumerNbnService
+  abcdeConsumerNbnServices(id: ID): [TelstraConsumerNbnService]
+  abcdeConsumerNbnService(id: ID!): TelstraConsumerNbnService
   ddsServices(id: ID): [DdsService]
   ddsService(id: ID!): DdsService
   ports(resourceStatus: Int, name: String, _type: String, id: String, _typeId: String, _version: String, portNumber: Int): [Port]
@@ -1581,8 +1581,8 @@ type Query {
   nok7750FunctionProperty(id: ID!): Nok7750FunctionProperty
   powerSocket_Types(id: ID): [PowerSocket_Type]
   powerSocket_Type(id: ID!): PowerSocket_Type
-  telstraConsumerUnitiServices(id: ID): [TelstraConsumerUnitiService]
-  telstraConsumerUnitiService(id: ID!): TelstraConsumerUnitiService
+  abcdeConsumerUnitiServices(id: ID): [TelstraConsumerUnitiService]
+  abcdeConsumerUnitiService(id: ID!): TelstraConsumerUnitiService
   antennas(npiId: Int, comments: String, serialNumber: String, _type: String, resourceStatus: Int, usageState: Int, administrativeState: Int, name: String, manufactureDate: String, id: String, operationalState: Int, _version: String, legacyAddressValue: String): [Antenna]
   antenna(id: ID!): Antenna
   contentDeliveryServices(id: ID): [ContentDeliveryService]

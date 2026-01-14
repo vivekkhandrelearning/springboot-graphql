@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "b5a9c9c3-9d8b-4f7e-8c1a-2b3d4e5f6g7h",
+		"name": "GraphQL Service Collection",
+		"description": "Collection of GraphQL queries for testing the Inventory GraphQL Service features.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Custom Reports",
+			"item": [
+				{
+					"name": "Custom Full Report - Basic",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    limit: 10,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/v1/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Custom Full Report - Complex Filters",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    filters: [\n      { field: \"manufacturer_type\", op: CONTAINS, values: [\"Type\"] },\n      { field: \"resource_status\", op: IN, values: [\"INSTALLED\", \"PLANNED\"] }\n    ],\n    sort: [\n      { field: \"manufacturer_type\", direction: DESC }\n    ],\n    limit: 20,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/v1/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "String Filter (EQ)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    filters: [\n      { field: \"manufacturer_type\", op: EQ, values: [\"SomeType\"] }\n    ],\n    limit: 10,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/v1/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Number Filter (GT)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    filters: [\n      { field: \"npi_id\", op: GT, values: [\"1000\"] }\n    ],\n    limit: 10,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/v1/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DateTime Filter (LT)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    filters: [\n      { field: \"date_manufactured\", op: LT, values: [\"2023-01-01T00:00:00Z\"] }\n    ],\n    limit: 10,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/v1/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Generic Queries",
+			"item": [
+				{
+					"name": "Run Query (Raw Cypher via Config)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  runQuery(\n    queryName: \"getAntennaDetails\",\n    parameters: {}\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/v1/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Antenna Details (Dynamic Fetcher)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  getAntennaDetails\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/v1/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Entity Queries (Schema Generated)",
+			"item": [
+				{
+					"name": "List Antennas (with Filters)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  antennas(\n    resourceStatus: 1\n  ) {\n    id\n    name\n    serialNumber\n    antenna_has_item_Item {\n      id\n      name\n    }\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/v1/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Vertical by ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  vertical(id: \"12345\") {\n    id\n    name\n    resourceStatus\n    vertical_has_terminalblock_TerminalBlock {\n      id\n      name\n    }\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/v1/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

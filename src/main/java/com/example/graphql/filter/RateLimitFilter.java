@@ -1,8 +1,8 @@
-package com.telstra.tni.graphql.filter;
+package com.example.graphql.filter;
 
 import java.io.IOException;
 
-import com.telstra.tni.graphql.service.RateLimitingService;
+import com.example.graphql.service.RateLimitingService;
 import org.springframework.stereotype.Component;
 
 import io.github.bucket4j.Bucket;
