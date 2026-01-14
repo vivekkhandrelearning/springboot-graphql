@@ -32,7 +32,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.abcde.tni</groupId>
+			<groupId>com.telstra.tni</groupId>
 			<artifactId>tni-common-utils</artifactId>
 			<version>${tni.commonutils.version}</version>
 		</dependency>

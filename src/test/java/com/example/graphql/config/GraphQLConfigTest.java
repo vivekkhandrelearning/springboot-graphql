@@ -3,6 +3,8 @@ package com.example.graphql.config;
 import java.util.Collections;
 import java.util.Map;
 
+import com.example.graphql.service.QueryService;
+import com.example.graphql.service.SchemaBasedQueryGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,9 +13,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.graphql.service.QueryService;
-import com.example.graphql.service.SchemaBasedQueryGenerator;
-import com.abcde.tni.commonutils.neo4j.DatabaseDriver;
+import com.telstra.tni.commonutils.neo4j.DatabaseDriver;
 
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
