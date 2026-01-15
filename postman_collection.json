@@ -7,386 +7,305 @@
 	},
 	"item": [
 		{
-			"name": "Antenna",
+			"name": "Custom Reports",
 			"item": [
 				{
-					"name": "Report",
+					"name": "Custom Full Report - Basic",
 					"request": {
 						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query { customFullReport(type: \"Antenna\", limit: 10, offset: 0) { rows } }"
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    limit: 10,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
 							}
 						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
+						"url": {
+							"raw": "{{graphQl}}/api/v1/graphql",
+							"host": [
+								"{{graphQl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
 				},
 				{
-					"name": "Filter: Enum (ResourceStatus)",
+					"name": "Custom Full Report - Complex Filters",
 					"request": {
 						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query { customFullReport(type: \"Antenna\", filters: [{ field: \"resource_status\", op: EQ, values: [\"INSTALLED\"] }], limit: 10, offset: 0) { rows } }"
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    filters: [\n      { field: \"manufacturer_type\", op: CONTAINS, values: [\"Type\"] },\n      { field: \"resource_status\", op: IN, values: [\"INSTALLED\", \"PLANNED\"] }\n    ],\n    sort: [\n      { field: \"manufacturer_type\", direction: DESC }\n    ],\n    limit: 20,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
 							}
 						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
+						"url": {
+							"raw": "{{graphQl}}/api/v1/graphql",
+							"host": [
+								"{{graphQl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
 				},
 				{
-					"name": "Filter: Number (NPI ID GT)",
+					"name": "String Filter (EQ)",
 					"request": {
 						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query { customFullReport(type: \"Antenna\", filters: [{ field: \"npi_id\", op: GT, values: [\"1000\"] }], limit: 10, offset: 0) { rows } }"
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    filters: [\n      { field: \"manufacturer_type\", op: EQ, values: [\"SomeType\"] }\n    ],\n    limit: 10,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
 							}
 						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
+						"url": {
+							"raw": "{{graphQl}}/api/v1/graphql",
+							"host": [
+								"{{graphQl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
 				},
 				{
-					"name": "Filter: Date (Manufactured LT)",
+					"name": "Number Filter (GT)",
 					"request": {
 						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query { customFullReport(type: \"Antenna\", filters: [{ field: \"date_manufactured\", op: LT, values: [\"2023-01-01T00:00:00Z\"] }], limit: 10, offset: 0) { rows } }"
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    filters: [\n      { field: \"npi_id\", op: GT, values: [\"1000\"] }\n    ],\n    limit: 10,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
 							}
 						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
+						"url": {
+							"raw": "{{graphQl}}/api/v1/graphql",
+							"host": [
+								"{{graphQl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DateTime Filter (LT)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  customFullReport(\n    type: \"Antenna\",\n    filters: [\n      { field: \"date_manufactured\", op: LT, values: [\"2023-01-01T00:00:00Z\"] }\n    ],\n    limit: 10,\n    offset: 0\n  ) {\n    rows\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{graphQl}}/api/v1/graphql",
+							"host": [
+								"{{graphQl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "Battery",
+			"name": "Generic Queries",
 			"item": [
 				{
-					"name": "Report",
+					"name": "Run Query (Raw Cypher via Config)",
 					"request": {
 						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query { customFullReport(type: \"Battery\", limit: 10, offset: 0) { rows } }"
+								"query": "query {\n  runQuery(\n    queryName: \"getAntennaDetails\",\n    parameters: {}\n  )\n}",
+								"variables": ""
 							}
 						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
+						"url": {
+							"raw": "{{graphQl}}/api/v1/graphql",
+							"host": [
+								"{{graphQl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Antenna Details (Dynamic Fetcher)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  getAntennaDetails\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{graphQl}}/api/v1/graphql",
+							"host": [
+								"{{graphQl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "CableSet",
+			"name": "Entity Queries (Schema Generated)",
 			"item": [
 				{
-					"name": "Report",
+					"name": "List Antennas (with Filters)",
 					"request": {
 						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query { customFullReport(type: \"CableSet\", limit: 10, offset: 0) { rows } }"
+								"query": "query {\n  antennas(\n    resourceStatus: 1\n  ) {\n    id\n    name\n    serialNumber\n    antenna_has_item_Item {\n      id\n      name\n    }\n  }\n}",
+								"variables": ""
 							}
 						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Card",
-			"item": [
+						"url": {
+							"raw": "{{graphQl}}/api/v1/graphql",
+							"host": [
+								"{{graphQl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
 				{
-					"name": "Report",
+					"name": "Get Single Vertical by ID",
 					"request": {
 						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query { customFullReport(type: \"Card\", limit: 10, offset: 0) { rows } }"
+								"query": "query {\n  vertical(id: \"12345\") {\n    id\n    name\n    resourceStatus\n    vertical_has_terminalblock_TerminalBlock {\n      id\n      name\n    }\n  }\n}",
+								"variables": ""
 							}
 						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "CircuitProtection",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"CircuitProtection\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Device",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Device\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "DistributionFrame",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"DistributionFrame\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Drawer",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Drawer\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Filter",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Filter\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "FuseHolder",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"FuseHolder\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Item",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Item\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Level",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Level\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Rack",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Rack\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Side",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Side\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "TerminalBlock",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"TerminalBlock\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Tray",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Tray\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Vertical",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Vertical\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
-				}
-			]
-		},
-		{
-			"name": "Zone",
-			"item": [
-				{
-					"name": "Report",
-					"request": {
-						"method": "POST",
-						"header": [{"key": "Content-Type", "value": "application/json", "type": "text"}],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query { customFullReport(type: \"Zone\", limit: 10, offset: 0) { rows } }"
-							}
-						},
-						"url": { "raw": "http://localhost:8087/api/v1/graphql", "protocol": "http", "host": ["localhost"], "port": "8087", "path": ["api", "v1", "graphql"] }
-					}
+						"url": {
+							"raw": "{{graphQl}}/api/v1/graphql",
+							"host": [
+								"{{graphQl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"graphql"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
